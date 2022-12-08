@@ -9,5 +9,6 @@
     <color name="white">#FFFFFFFF</color>
     <color name="cinza_fraco">#b2b2b2</color>
     <color name="cinza_medio">#555555</color>
+    <color name="cinza_claro">#f7f7f7</color>
     <color name="green_entrege">#54B435</color>
 </resources>

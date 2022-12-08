@@ -1,16 +1,16 @@
 package com.example.gerenciadordeencomendas.ui.activity.fragment
 
-import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import com.example.gerenciadordeencomendas.R
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.gerenciadordeencomendas.adapters.DetalheEncomendaAdapter
 import com.example.gerenciadordeencomendas.databinding.DetalheEncomendaBinding
 import com.example.gerenciadordeencomendas.repository.Repository
@@ -18,14 +18,15 @@ import com.example.gerenciadordeencomendas.ui.activity.CHAVE_ENCOMENDA_ID
 import com.example.gerenciadordeencomendas.ui.activity.viewmodel.DetalheEncomendaViewModel
 import com.example.gerenciadordeencomendas.ui.activity.viewmodel.factory.DetalheEncomendaViewModelFactory
 import com.example.gerenciadordeencomendas.utils.Utils
-import com.example.gerenciadordeencomendas.webcliente.model.Evento
+import com.example.gerenciadordeencomendas.webcliente.model.ApiMelhorRastreio
+import com.example.gerenciadordeencomendas.webcliente.model.Event
 import kotlinx.coroutines.launch
 
 
 class DetalheEncomendaFragment : Fragment() {
     var botaoVoltar: () -> Unit = {}
-    private val encomendaId: String by lazy{
-         arguments?.getString(CHAVE_ENCOMENDA_ID) ?: throw IllegalArgumentException("Id inválido")
+    private val encomendaId: String by lazy {
+        arguments?.getString(CHAVE_ENCOMENDA_ID) ?: throw IllegalArgumentException("Id inválido")
     }
 
     private val adpter by lazy {
@@ -55,7 +56,6 @@ class DetalheEncomendaFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         mostraEncomenda()
-        activity?.title = "Encomenda"
 //        clicouBotaoVoltar()
     }
 
@@ -64,59 +64,80 @@ class DetalheEncomendaFragment : Fragment() {
         viewModel.buscaEncomendaPorId(encomendaId)
         viewModel.liveDataEncomendaId.observe(this, Observer {
             lifecycleScope.launch {
+
+                val rastreioMelhorRastreio =
+                    viewModel.buscaWebClienteMelhorRastreio(it.codigoRastreio)
+
                 val nomePacote = binding.detalheEncomendaNomePacote
                 nomePacote.text = it.nomePacote
                 val codigoRastreio = binding.detalheEncomendaCodigoRastreio
                 codigoRastreio.text = it.codigoRastreio
                 val mensagemErro = binding.detalheEncomendaMensagemErro
                 val iconeErro = binding.detalheEncomendaIconErro
-                val rastreio = viewModel.buscaWebCliente(it.codigoRastreio)
-                if (rastreio.quantidade != 0L) {
-                    if (rastreio.eventos.size != 0) {
-                        val tamanhoEvento = rastreio.eventos.size - 1
-                        val primeiroStatus = rastreio.eventos.get(tamanhoEvento)
-                        val ultimoStatus = rastreio.eventos.get(0)
 
-                        diasDePostagem(ultimoStatus, primeiroStatus)
+//                val rastreio = viewModel.buscaWebCliente(it.codigoRastreio)
+//                if (rastreio.quantidade != 0L) {
+//                    if (rastreio.eventos.size != 0) {
+//                        val tamanhoEvento = rastreio.eventos.size - 1
+//                        val primeiroStatus = rastreio.eventos.get(tamanhoEvento)
+//                        val ultimoStatus = rastreio.eventos.get(0)
+//                        if (ultimoStatus.status == "Objeto entregue ao destinatário"){
+//                            activity?.title = "Entregue"
+//                        }else{
+//                            activity?.title = "Em trânsito"
+//                        }
 
-                        adpter.atualiza(rastreio.eventos, ultimoStatus, encomendaId, primeiroStatus)
-                        val recyclerView = binding.detalheEncomendaRecyclerview
-                        recyclerView.adapter = adpter
-                        ocultaProgressbar()
-                    }
-                } else {
-                    ocultaProgressbar()
-                    mensagemErro.visibility = View.VISIBLE
-                    iconeErro.visibility = View.VISIBLE
-                    codigoRastreio.setTextColor(Color.RED)
-                }
+//
+
+                val tamanhoEvent = rastreioMelhorRastreio.data.events.size - 1
+                val ultimoStatus = rastreioMelhorRastreio.data.events.get(tamanhoEvent)
+                val primeiroStatus = rastreioMelhorRastreio.data.events.get(0)
+
+//                diasDePostagem(ultimoStatus, primeiroStatus)
+
+                adpter.atualiza(rastreioMelhorRastreio.data.events, encomendaId, ultimoStatus)
+                val recyclerView = binding.detalheEncomendaRecyclerview
+                val layoutManager = LinearLayoutManager(context)
+                layoutManager.reverseLayout = true
+                layoutManager.stackFromEnd = true
+                recyclerView.layoutManager = layoutManager
+                recyclerView.adapter = adpter
+                ocultaProgressbar()
             }
+//                } else {
+//                    activity?.title = "Encomenda"
+//                    ocultaProgressbar()
+//                    mensagemErro.visibility = View.VISIBLE
+//                    iconeErro.visibility = View.VISIBLE
+//                    codigoRastreio.setTextColor(Color.RED)
+//                }
+//            }
         })
 
     }
 
-    private fun diasDePostagem(ultimoStatus: Evento, primeiroStatus: Evento) {
-        val dataPostagem = primeiroStatus.data
-        var dataHoje = Utils().data()
-        if (ultimoStatus.status == "Objeto entregue ao destinatário") {
-            dataHoje = ultimoStatus.data
-        }
-        val diasEnviado = Utils().dias(dataPostagem, dataHoje)
-        var dia: String
-        var textoEnviado: String
-        if (diasEnviado < 2) {
-            dia = "dia"
-        } else {
-            dia = "dias"
-        }
-
-        if (ultimoStatus.status == "Objeto entregue ao destinatário") {
-            textoEnviado = "Entregue em:"
-        } else {
-            textoEnviado = "Enviado há:"
-        }
-        binding.detalheEncomendaDiasenviado.text = "$textoEnviado $diasEnviado $dia"
-    }
+//    private fun diasDePostagem(ultimoStatus: Event, primeiroStatus: Event) {
+//        val dataPostagem = primeiroStatus.date
+//        var dataHoje = Utils().data()
+//        if (ultimoStatus.events == "Objeto entregue ao destinatário") {
+//            dataHoje = ultimoStatus.date
+//        }
+//        val diasEnviado = Utils().dias(dataPostagem, dataHoje)
+//        var dia: String
+//        var textoEnviado: String
+//        if (diasEnviado < 2) {
+//            dia = "dia"
+//        } else {
+//            dia = "dias"
+//        }
+//
+//        if (ultimoStatus.events == "Objeto entregue ao destinatário") {
+//            textoEnviado = "Entregue em:"
+//        } else {
+//            textoEnviado = "Enviado há:"
+//        }
+//        binding.detalheEncomendaDiasenviado.text = "$textoEnviado $diasEnviado $dia"
+//    }
 
     private fun ocultaProgressbar() {
         binding.detalheEncomendaProgressbar.visibility = View.GONE

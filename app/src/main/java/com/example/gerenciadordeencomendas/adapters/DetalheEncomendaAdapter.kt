@@ -2,75 +2,82 @@ package com.example.gerenciadordeencomendas.adapters
 
 import android.content.Context
 import android.graphics.Color
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.gerenciadordeencomendas.R
 import com.example.gerenciadordeencomendas.databinding.ItemRastreioBinding
 import com.example.gerenciadordeencomendas.repository.Repository
+import com.example.gerenciadordeencomendas.webcliente.model.Event
 import com.example.gerenciadordeencomendas.webcliente.model.Evento
+import java.text.SimpleDateFormat
+import java.util.*
 
 class DetalheEncomendaAdapter(
     private val context: Context,
-    evento: List<Evento> = emptyList()
+    evento: List<Event> = emptyList()
 ) : RecyclerView.Adapter<DetalheEncomendaAdapter.ViewHolder>() {
 
     private val evento = evento.toMutableList()
-    private lateinit var ultimoStatus: Evento
-    private lateinit var primeiroStatus: Evento
     private lateinit var encomendaId: String
+    private lateinit var ultimoStatus: Event
 
     private val repository by lazy {
         Repository()
     }
 
-    inner class ViewHolder(private val binding: ItemRastreioBinding)
-        : RecyclerView.ViewHolder(binding.root) {
+    inner class ViewHolder(private val binding: ItemRastreioBinding) :
+        RecyclerView.ViewHolder(binding.root) {
 
-        private lateinit var evento: Evento
+        private lateinit var evento: Event
 
-
-
-        fun vincula(evento: Evento) {
+        fun vincula(evento: Event) {
             this.evento = evento
 
             val status = binding.itemRastreioStatus
-            status.text = evento.status
+            status.text = evento.events
 
             val subStatus = binding.itemRastreioSubstatus
-
-            val linhaDoTempoCirculo = binding.itemRastreioLinhaDoTempoCirculo
-
-            if (evento.subStatus == ultimoStatus.subStatus &&
-                evento.hora == ultimoStatus.hora &&
-                    evento.data == ultimoStatus.data){
-                status.setTextColor(Color.parseColor("#000000"))
-                subStatus.setTextColor(Color.parseColor("#000000"))
-                linhaDoTempoCirculo.setBackgroundResource(R.drawable.view_circular_preto)
-            }
-
-
-            if(evento.status != "Objeto recebido pelos Correios do Brasil") {
-                subStatus.text = evento.subStatus.joinToString("\n")
-            }else{
-                subStatus.text = "Local: " +evento.local
-            }
-
-            if(evento.subStatus.isEmpty()){
-                subStatus.text = "Local: " + evento.local
-            }
+            val circuloLinhaDoTempo = binding.itemRastreioLinhaDoTempoCirculo
 
             val data = binding.itemRastreioData
-            data.text = evento.data
+            data.text = evento.date
 
-            val hora = binding.itemRastreioHora
-            hora.text = evento.hora
+            when {
+                evento.local == "País" -> {
+                    subStatus.text = evento.local
+                }
+                evento.destination_city != null -> {
+                    subStatus.text =
+                        "De: ${evento.local} ${evento.city} - ${evento.uf} \nPara: ${evento.destination_local} ${evento.destination_city} - ${evento.uf}"
+                }
+                evento.destination_city == null -> {
+                    subStatus.text = evento.local + " - " + evento.city + "/" + evento.uf
+                }
 
-            if (ultimoStatus.status == "Objeto entregue ao destinatário") {
-                repository.atualizaStatus(encomendaId, "Entregue")
-            }else{
-                repository.atualizaStatus(encomendaId, ultimoStatus.status)
+                evento.comment != null -> {
+                    subStatus.text =
+                        evento.local + " - " + evento.city + "/" + evento.uf + "\n" + evento.comment
+                }
+
             }
+
+            if( evento.events == ultimoStatus.events && evento.local == ultimoStatus.local &&
+                evento.date == ultimoStatus.date ){
+                status.setTextColor(Color.parseColor("#000000"))
+                subStatus.setTextColor(Color.parseColor("#000000"))
+                circuloLinhaDoTempo.setBackgroundResource(R.drawable.view_circular_preto)
+            }
+
+            var statusAtualizar: String
+            if (ultimoStatus.events == "Objeto entregue ao destinatário"){
+                 statusAtualizar = "Entregue"
+            }else{
+                statusAtualizar = ultimoStatus.events
+            }
+            repository.atualizaStatus(encomendaId, statusAtualizar)
+
 
         }
 
@@ -89,10 +96,9 @@ class DetalheEncomendaAdapter(
 
     override fun getItemCount(): Int = evento.size
 
-    fun atualiza(evento: List<Evento>, ultimoStatus : Evento, encomendaId: String, primeiroStatus: Evento) {
-        this.ultimoStatus = ultimoStatus
-        this.primeiroStatus = primeiroStatus
+    fun atualiza(evento: List<Event>, encomendaId: String, ultimoStatus: Event) {
         this.encomendaId = encomendaId
+        this.ultimoStatus = ultimoStatus
         this.evento.clear()
         this.evento.addAll(evento)
         notifyDataSetChanged()

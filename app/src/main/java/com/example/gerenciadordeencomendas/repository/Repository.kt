@@ -2,11 +2,12 @@ package com.example.gerenciadordeencomendas.repository
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
-import com.example.gerenciadordeencomendas.databinding.ItemEncomendaBinding
 import com.example.gerenciadordeencomendas.model.Encomenda
 import com.example.gerenciadordeencomendas.model.Usuario
 import com.example.gerenciadordeencomendas.utils.Utils
 import com.example.gerenciadordeencomendas.webcliente.model.ApiCorreios
+import com.example.gerenciadordeencomendas.webcliente.model.ApiMelhorRastreio
+import com.example.gerenciadordeencomendas.webcliente.model.RastreioWebClientMelhorEnvio
 import com.example.gerenciadordeencomendas.webcliente.model.RastreioWebCliente
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
@@ -19,10 +20,13 @@ class Repository {
     val db = FirebaseFirestore.getInstance()
     val auth = FirebaseAuth.getInstance()
 
-    private val webCliente by lazy {
+    private val webClienteApiCorreios by lazy {
         RastreioWebCliente()
     }
 
+    private val webClientMelhorRastreio by lazy {
+        RastreioWebClientMelhorEnvio()
+    }
     fun cadastraUsuario(usuario: Usuario): Task<AuthResult> {
         val resultado = auth.createUserWithEmailAndPassword(usuario.email, usuario.senha)
             .addOnCompleteListener {
@@ -139,7 +143,11 @@ class Repository {
     suspend fun buscaWebCliente(codigo: String): ApiCorreios {
         val user = "isaquecross15@gmail.com"
         val token = "0a40c26417782427548f2aeb57f74c4038faf1f26ac662379425e35c848cce2b"
-        return webCliente.buscaRastreio(user, token, codigo)
+        return webClienteApiCorreios.buscaRastreio(user, token, codigo)
+    }
+
+    suspend fun buscaWebClientMelhorEnvio(codigo: String): ApiMelhorRastreio{
+        return webClientMelhorRastreio.buscaRastreio(codigo)
     }
 
 }

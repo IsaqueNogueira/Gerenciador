@@ -7,6 +7,7 @@
     android:layout_height="wrap_content"
     android:layout_marginStart="4dp"
     android:layout_marginEnd="4dp"
+    app:cardElevation="0dp"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toTopOf="parent">
@@ -29,8 +30,8 @@
 
         <View
             android:id="@+id/item_rastreio_linha_do_tempo_circulo"
-            android:layout_width="15dp"
-            android:layout_height="15dp"
+            android:layout_width="10dp"
+            android:layout_height="10dp"
             android:background="@drawable/view_circular_cinza"
             app:layout_constraintBottom_toBottomOf="@id/item_rastreio_status"
             app:layout_constraintEnd_toEndOf="@id/item_rastreio_linha_do_tempo"
@@ -54,52 +55,26 @@
             android:id="@+id/item_rastreio_data"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="10sp"
             android:layout_marginStart="3dp"
+            android:layout_marginEnd="8dp"
+            android:textSize="11sp"
+            app:layout_constraintBottom_toBottomOf="@id/item_rastreio_iconcalendar"
             app:layout_constraintStart_toEndOf="@id/item_rastreio_iconcalendar"
             app:layout_constraintTop_toTopOf="@id/item_rastreio_iconcalendar"
-            app:layout_constraintBottom_toBottomOf="@id/item_rastreio_iconcalendar"
-            app:layout_constraintEnd_toStartOf="@id/item_rastreio_iconhora"
-            android:layout_marginEnd="8dp"
             tools:text="10/11/2022" />
-
-
 
         <View
             android:id="@+id/item_rastreio_iconcalendar"
             android:layout_width="10dp"
             android:layout_height="10dp"
             android:layout_marginEnd="3dp"
+            android:layout_marginBottom="8dp"
             android:background="@drawable/ic_calendar"
-            app:layout_constraintTop_toBottomOf="@id/item_rastreio_substatus"
-            app:layout_constraintStart_toStartOf="@id/item_rastreio_substatus"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@id/item_rastreio_data"
             app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginBottom="8dp"
-            />
-
-        <TextView
-            android:id="@+id/item_rastreio_hora"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="10sp"
-            app:layout_constraintStart_toEndOf="@id/item_rastreio_iconhora"
-            android:layout_marginStart="3dp"
-            app:layout_constraintTop_toTopOf="@id/item_rastreio_iconhora"
-            app:layout_constraintBottom_toBottomOf="@id/item_rastreio_iconhora"
-            tools:text="11:35" />
-
-        <View
-            android:id="@+id/item_rastreio_iconhora"
-            android:layout_width="10dp"
-            android:layout_height="10dp"
-            android:background="@drawable/ic_hora"
-            app:layout_constraintStart_toEndOf="@id/item_rastreio_data"
-            app:layout_constraintTop_toTopOf="@id/item_rastreio_data"
-            app:layout_constraintBottom_toBottomOf="@id/item_rastreio_data"
-            app:layout_constraintEnd_toEndOf="@id/item_rastreio_hora"
-             />
+            app:layout_constraintStart_toStartOf="@id/item_rastreio_substatus"
+            app:layout_constraintTop_toBottomOf="@id/item_rastreio_substatus" />
 
         <TextView
             android:id="@+id/item_rastreio_substatus"
@@ -112,7 +87,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@id/item_rastreio_status"
             app:layout_constraintTop_toBottomOf="@id/item_rastreio_status"
-            tools:text="Origem: Unidade de Logística Integrada - Curitiba / PR ,Destino: Unidade de Tratamento - Jaboatao Dos Guararapes / PE" />
+            tools:text="Unidade de Logística Integrada" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>
