@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <View
+        android:id="@+id/detalhe_encomenda_titulo"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/detalhe_encomenda_linha"
+        android:background="@color/purple_500"
+        android:paddingBottom="5dp"
+        />
+
+    <TextView
+        android:id="@+id/detalhe_encomenda_nomePacote"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginStart="20dp"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Flamengo, corinthians, vasco, fluminense, brasil, flamengo, brasil, flamengo, corinthia,sao paulo, fluminense, cruzeiro, flamengo, brasil, simone,vanessa" />
+
+    <TextView
+        android:id="@+id/detalhe_encomenda_codigoRastreio"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="@id/detalhe_encomenda_nomePacote"
+        app:layout_constraintStart_toStartOf="@id/detalhe_encomenda_nomePacote"
+        app:layout_constraintTop_toBottomOf="@id/detalhe_encomenda_nomePacote"
+        tools:text="AB123456789BR" />
+
+    <TextView
+        android:id="@+id/detalhe_encomenda_diasenviado"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="11sp"
+        app:layout_constraintEnd_toEndOf="@id/detalhe_encomenda_codigoRastreio"
+        app:layout_constraintStart_toStartOf="@id/detalhe_encomenda_codigoRastreio"
+        app:layout_constraintTop_toBottomOf="@id/detalhe_encomenda_codigoRastreio"
+        tools:text="Enviado há: 25 dias" />
+
+    <View
+        android:id="@+id/detalhe_encomenda_linha"
+        android:layout_width="0dp"
+        android:layout_height="0.4dp"
+        android:layout_margin="10dp"
+        android:background="@color/cinza_fraco"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/detalhe_encomenda_diasenviado" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/detalhe_encomenda_recyclerview"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/detalhe_encomenda_linha"
+        tools:listitem="@layout/item_rastreio" />
+
+    <TextView
+        android:id="@+id/detalhe_encomenda_mensagemErro"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:text="@string/erroRastreio"
+        android:textAlignment="center"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/detalhe_encomenda_iconErro" />
+
+    <View
+        android:id="@+id/detalhe_encomenda_iconErro"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_margin="20dp"
+        android:background="@drawable/ic_error"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/detalhe_encomenda_linha" />
+
+    <ProgressBar
+        android:id="@+id/detalhe_encomenda_progressbar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/detalhe_encomenda_linha" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

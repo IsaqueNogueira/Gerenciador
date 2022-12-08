@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "716977099458",
+    "project_id": "gerenciador-de-encomenda-460e8",
+    "storage_bucket": "gerenciador-de-encomenda-460e8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:716977099458:android:445ecb8dd9f02577cea15b",
+        "android_client_info": {
+          "package_name": "com.example.gerenciadordeencomendas"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "716977099458-rsu972pale90a6f27rae6e3ursdjetts.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBAt2vT5I6tL36Weuwo__7nJVLPxEWuycA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "716977099458-rsu972pale90a6f27rae6e3ursdjetts.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

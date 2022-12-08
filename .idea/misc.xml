@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/Users/Isaque/AndroidStudioProjects/Gerenciadordeencomendas/app/src/main/res/drawable/botao.xml" value="0.172" />
+        <entry key="..\:/Users/Isaque/AndroidStudioProjects/Gerenciadordeencomendas/app/src/main/res/drawable/ic_back.xml" value="0.172" />
+        <entry key="..\:/Users/Isaque/AndroidStudioProjects/Gerenciadordeencomendas/app/src/main/res/drawable/ic_calendar.xml" value="0.1955" />
+        <entry key="..\:/Users/Isaque/AndroidStudioProjects/Gerenciadordeencomendas/app/src/main/res/drawable/ic_error.xml" value="0.1955" />
+        <entry key="..\:/Users/Isaque/AndroidStudioProjects/Gerenciadordeencomendas/app/src/main/res/drawable/ic_gps.xml" value="0.1955" />
+        <entry key="..\:/Users/Isaque/AndroidStudioProjects/Gerenciadordeencomendas/app/src/main/res/drawable/ic_package.xml" value="0.1955" />
+        <entry key="..\:/Users/Isaque/AndroidStudioProjects/Gerenciadordeencomendas/app/src/main/res/drawable/ic_packageentregue.xml" value="0.1955" />
+        <entry key="..\:/Users/Isaque/AndroidStudioProjects/Gerenciadordeencomendas/app/src/main/res/drawable/ic_packageentregueverde.xml" value="0.1955" />
+        <entry key="..\:/Users/Isaque/AndroidStudioProjects/Gerenciadordeencomendas/app/src/main/res/drawable/ic_resource_package.xml" value="0.1955" />
+        <entry key="..\:/Users/Isaque/AndroidStudioProjects/Gerenciadordeencomendas/app/src/main/res/drawable/view_circular.xml" value="0.172" />
+        <entry key="..\:/Users/Isaque/AndroidStudioProjects/Gerenciadordeencomendas/app/src/main/res/drawable/view_circular_verde.xml" value="0.1955" />
+        <entry key="..\:/Users/Isaque/AndroidStudioProjects/Gerenciadordeencomendas/app/src/main/res/layout/activity_cadastro.xml" value="0.33" />
+        <entry key="..\:/Users/Isaque/AndroidStudioProjects/Gerenciadordeencomendas/app/src/main/res/layout/activity_detalhe_encomenda.xml" value="0.33" />
+        <entry key="..\:/Users/Isaque/AndroidStudioProjects/Gerenciadordeencomendas/app/src/main/res/layout/activity_encomendas.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/Isaque/AndroidStudioProjects/Gerenciadordeencomendas/app/src/main/res/layout/activity_form_encomenda.xml" value="0.25" />
+        <entry key="..\:/Users/Isaque/AndroidStudioProjects/Gerenciadordeencomendas/app/src/main/res/layout/activity_lista_encomendas.xml" value="0.33" />
+        <entry key="..\:/Users/Isaque/AndroidStudioProjects/Gerenciadordeencomendas/app/src/main/res/layout/activity_login.xml" value="0.33" />
+        <entry key="..\:/Users/Isaque/AndroidStudioProjects/Gerenciadordeencomendas/app/src/main/res/layout/activity_main.xml" value="0.1" />
+        <entry key="..\:/Users/Isaque/AndroidStudioProjects/Gerenciadordeencomendas/app/src/main/res/layout/detalhe_encomenda.xml" value="0.365625" />
+        <entry key="..\:/Users/Isaque/AndroidStudioProjects/Gerenciadordeencomendas/app/src/main/res/layout/item_encomenda.xml" value="0.33" />
+        <entry key="..\:/Users/Isaque/AndroidStudioProjects/Gerenciadordeencomendas/app/src/main/res/layout/item_rastreio.xml" value="0.33" />
+        <entry key="..\:/Users/Isaque/AndroidStudioProjects/Gerenciadordeencomendas/app/src/main/res/layout/lista_encomendas.xml" value="0.365625" />
+        <entry key="..\:/Users/Isaque/AndroidStudioProjects/Gerenciadordeencomendas/app/src/main/res/menu/menu_lista_encomendas.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/Isaque/AndroidStudioProjects/Gerenciadordeencomendas/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1955" />
+        <entry key="..\:/Users/Isaque/Downloads/Gerenciador-de-encomendas-addFragment/app/src/main/res/drawable/view_circular_cinza.xml" value="0.1955" />
+        <entry key="..\:/Users/Isaque/Downloads/Gerenciador-de-encomendas-addFragment/app/src/main/res/drawable/view_circular_preto.xml" value="0.1" />
+        <entry key="..\:/Users/Isaque/Downloads/Gerenciador-de-encomendas-addFragment/app/src/main/res/drawable/view_circular_verde.xml" value="0.1" />
+        <entry key="..\:/Users/Isaque/Downloads/Gerenciador-de-encomendas-addFragment/app/src/main/res/layout/detalhe_encomenda.xml" value="0.33" />
+        <entry key="..\:/Users/Isaque/Downloads/Gerenciador-de-encomendas-addFragment/app/src/main/res/layout/item_rastreio.xml" value="0.36666666666666664" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>

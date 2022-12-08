@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Gerenciador de encomendas</string>
+    <string name="form_titulo">Adicionar pacote:</string>
+    <string name="erroRastreio">O código não foi encontrado, verifique se o número de rastreamento está correto. Se o número estiver correto, não se preocupe e tente novamente mais tarde.</string>
+</resources>
