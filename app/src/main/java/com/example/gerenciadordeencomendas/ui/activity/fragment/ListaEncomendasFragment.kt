@@ -93,6 +93,7 @@ class ListaEncomendasFragment : Fragment() {
         viewModel.buscaTodasEncomendas()
         viewModel.liveDataEncomenda.observe(this, Observer { encomendas ->
             adapter.atualiza(encomendas)
+            Log.i("TAG", "mostraEncomenda: atualiza")
             val recyclerView = binding.listaEncomendaRecyclerview
             recyclerView.adapter = adapter
             adapter.quandoClicarNoItem = {

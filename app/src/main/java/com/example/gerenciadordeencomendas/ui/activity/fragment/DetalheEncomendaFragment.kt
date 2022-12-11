@@ -65,55 +65,47 @@ class DetalheEncomendaFragment : Fragment() {
         viewModel.liveDataEncomendaId.observe(this, Observer {
             lifecycleScope.launch {
 
-                val rastreioMelhorRastreio =
-                    viewModel.buscaWebClienteMelhorRastreio(it.codigoRastreio)
-
                 val nomePacote = binding.detalheEncomendaNomePacote
                 nomePacote.text = it.nomePacote
                 val codigoRastreio = binding.detalheEncomendaCodigoRastreio
                 codigoRastreio.text = it.codigoRastreio
-                val mensagemErro = binding.detalheEncomendaMensagemErro
-                val iconeErro = binding.detalheEncomendaIconErro
 
-//                val rastreio = viewModel.buscaWebCliente(it.codigoRastreio)
-//                if (rastreio.quantidade != 0L) {
-//                    if (rastreio.eventos.size != 0) {
-//                        val tamanhoEvento = rastreio.eventos.size - 1
-//                        val primeiroStatus = rastreio.eventos.get(tamanhoEvento)
-//                        val ultimoStatus = rastreio.eventos.get(0)
-//                        if (ultimoStatus.status == "Objeto entregue ao destinatário"){
-//                            activity?.title = "Entregue"
-//                        }else{
-//                            activity?.title = "Em trânsito"
-//                        }
+                viewModel.buscaWebClienteMelhorRastreio(it.codigoRastreio)?.let {
+                    val rastreioMelhorRastreio = it
 
-//
+                    val tamanhoEvent = rastreioMelhorRastreio.data.events.size - 1
+                    val ultimoStatus = rastreioMelhorRastreio.data.events.get(tamanhoEvent)
+                    val primeiroStatus = rastreioMelhorRastreio.data.events.get(0)
 
-                val tamanhoEvent = rastreioMelhorRastreio.data.events.size - 1
-                val ultimoStatus = rastreioMelhorRastreio.data.events.get(tamanhoEvent)
-                val primeiroStatus = rastreioMelhorRastreio.data.events.get(0)
+
+                    if (ultimoStatus.events == "Objeto entregue ao destinatário") {
+                        activity?.title = "Entregue"
+                    } else {
+                        activity?.title = "Em trânsito"
+                    }
 
 //                diasDePostagem(ultimoStatus, primeiroStatus)
 
-                adpter.atualiza(rastreioMelhorRastreio.data.events, encomendaId, ultimoStatus)
-                val recyclerView = binding.detalheEncomendaRecyclerview
-                val layoutManager = LinearLayoutManager(context)
-                layoutManager.reverseLayout = true
-                layoutManager.stackFromEnd = true
-                recyclerView.layoutManager = layoutManager
-                recyclerView.adapter = adpter
-                ocultaProgressbar()
+                    adpter.atualiza(rastreioMelhorRastreio.data.events, encomendaId, ultimoStatus)
+                    val recyclerView = binding.detalheEncomendaRecyclerview
+                    val layoutManager = LinearLayoutManager(context)
+                    layoutManager.reverseLayout = true
+                    layoutManager.stackFromEnd = true
+                    recyclerView.layoutManager = layoutManager
+                    recyclerView.adapter = adpter
+                    ocultaProgressbar()
+                } ?: mostraErro()
             }
-//                } else {
-//                    activity?.title = "Encomenda"
-//                    ocultaProgressbar()
-//                    mensagemErro.visibility = View.VISIBLE
-//                    iconeErro.visibility = View.VISIBLE
-//                    codigoRastreio.setTextColor(Color.RED)
-//                }
-//            }
-        })
 
+        })
+    }
+
+    private fun mostraErro(){
+        val mensagemErro = binding.detalheEncomendaMensagemErro
+        val iconeErro = binding.detalheEncomendaIconErro
+        mensagemErro.visibility = View.VISIBLE
+        iconeErro.visibility = View.VISIBLE
+        ocultaProgressbar()
     }
 
 //    private fun diasDePostagem(ultimoStatus: Event, primeiroStatus: Event) {

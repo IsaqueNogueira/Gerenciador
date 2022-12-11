@@ -56,13 +56,11 @@ class DetalheEncomendaAdapter(
                     subStatus.text = evento.local + " - " + evento.city + "/" + evento.uf
                 }
 
-                evento.comment != null -> {
-                    subStatus.text =
-                        evento.local + " - " + evento.city + "/" + evento.uf + "\n" + evento.comment
-                }
-
             }
-
+            if(evento.comment != null)  {
+                subStatus.text =
+                    evento.local + " - " + evento.city + "/" + evento.uf + "\n" + evento.comment
+            }
             if( evento.events == ultimoStatus.events && evento.local == ultimoStatus.local &&
                 evento.date == ultimoStatus.date ){
                 status.setTextColor(Color.parseColor("#000000"))
@@ -77,7 +75,6 @@ class DetalheEncomendaAdapter(
                 statusAtualizar = ultimoStatus.events
             }
             repository.atualizaStatus(encomendaId, statusAtualizar)
-
 
         }
 

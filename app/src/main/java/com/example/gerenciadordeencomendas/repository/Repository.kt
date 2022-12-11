@@ -1,6 +1,7 @@
 package com.example.gerenciadordeencomendas.repository
 
 import android.util.Log
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.gerenciadordeencomendas.model.Encomenda
 import com.example.gerenciadordeencomendas.model.Usuario
@@ -47,7 +48,6 @@ class Repository {
         }.addOnFailureListener { e -> Log.d("db_error", "Erros so salvar os dados$e") }
 
     }
-
 
     fun salvarEncomenda(encomenda: Encomenda): Task<Void> {
         val documentReference = db.collection("Encomendas").document()
@@ -117,7 +117,6 @@ class Repository {
                         liveDataEncomendaId.value = encomendas
                     }
 
-
                 }
             }
     }
@@ -146,7 +145,7 @@ class Repository {
         return webClienteApiCorreios.buscaRastreio(user, token, codigo)
     }
 
-    suspend fun buscaWebClientMelhorEnvio(codigo: String): ApiMelhorRastreio{
+    suspend fun buscaWebClientMelhorEnvio(codigo: String): ApiMelhorRastreio? {
         return webClientMelhorRastreio.buscaRastreio(codigo)
     }
 

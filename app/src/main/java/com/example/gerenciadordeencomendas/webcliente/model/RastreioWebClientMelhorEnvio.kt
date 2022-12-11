@@ -8,13 +8,14 @@ class RastreioWebClientMelhorEnvio {
     private val apiMelhorRastreio: MelhorRastreioService =
         RetrofitMelhorRastreio().melhorEnvioService
 
-    suspend fun buscaRastreio(codigo: String): ApiMelhorRastreio {
+    suspend fun buscaRastreio(codigo: String): ApiMelhorRastreio? {
 
-        val rastreioResposta = apiMelhorRastreio
-            .buscaRastreio(codigo)
-
-        return rastreioResposta
-
+        return try {
+            apiMelhorRastreio.buscaRastreio(codigo)
+        } catch (e: Exception) {
+            null
+        }
 
     }
+
 }

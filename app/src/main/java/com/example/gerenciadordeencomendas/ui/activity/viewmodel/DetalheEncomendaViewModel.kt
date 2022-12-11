@@ -19,7 +19,7 @@ class DetalheEncomendaViewModel(
       return  repository.buscaWebCliente(codigo)
     }
 
-    suspend fun buscaWebClienteMelhorRastreio(codigo: String): ApiMelhorRastreio {
+    suspend fun buscaWebClienteMelhorRastreio(codigo: String): ApiMelhorRastreio? {
        return repository.buscaWebClientMelhorEnvio(codigo)
     }
 

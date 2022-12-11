@@ -9,7 +9,6 @@ class ListaEncomendasViewModel(
     private val repository: Repository
 ) : ViewModel() {
 
-
     fun buscaTodasEncomendas() {
          repository.buscaTodasEncomendas()
     }
@@ -20,4 +19,5 @@ class ListaEncomendasViewModel(
 
     val liveDataEncomenda = repository.liveDataEncomenda
     val auth = FirebaseAuth.getInstance()
+
 }
