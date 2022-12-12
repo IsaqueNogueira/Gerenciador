@@ -1,37 +1,35 @@
 package com.example.gerenciadordeencomendas.utils
 
+import android.app.AlertDialog
+import android.content.Context
 import android.net.ConnectivityManager
-import android.net.Network
-import android.net.NetworkCapabilities
-import android.net.NetworkInfo
+import androidx.appcompat.app.AppCompatActivity
+import com.example.gerenciadordeencomendas.R
 
-class NetworkChecker(private val connectivityManager: ConnectivityManager?) {
+fun AppCompatActivity.verificaConexao() {
 
+    val manager =
+        applicationContext.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 
-    fun performActionIfConnected(action: ()-> Unit){
-        if(hasInternet())
-            action
-    }
+    val networkInfo = manager.activeNetworkInfo
 
-    private fun hasInternet(): Boolean {
-      return if (android.os.Build.VERSION.SDK_INT > android.os.Build.VERSION_CODES.M){
-          val network: Network = connectivityManager?.activeNetwork ?: return false
-          val capabilities: NetworkCapabilities =
-              connectivityManager.getNetworkCapabilities(network) ?: return false
+    if (null != networkInfo) {
+//        if (networkInfo.type == ConnectivityManager.TYPE_WIFI) {
+//            Toast.makeText(this, "Wifi conectado", Toast.LENGTH_SHORT).show()
+//
+//        } else if (networkInfo.type == ConnectivityManager.TYPE_MOBILE) {
+//            Toast.makeText(this, "Dados móveis conectado", Toast.LENGTH_SHORT).show()
+//        }
+    } else {
 
-          return capabilities.hasTransport(
-              NetworkCapabilities.TRANSPORT_WIFI
-          )
-                  || capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)
-                  || capabilities.hasTransport(NetworkCapabilities.TRANSPORT_VPN)
-      }else{
-          val activeNetworkInfo: NetworkInfo? = connectivityManager?.activeNetworkInfo
-          if (activeNetworkInfo != null){
-            return activeNetworkInfo.type == ConnectivityManager.TYPE_WIFI
-                    || activeNetworkInfo.type == ConnectivityManager.TYPE_MOBILE
-          }
-          false
-      }
+        AlertDialog.Builder(this)
+            .setView(R.layout.alert_dialog_sem_conexao)
+            .setPositiveButton("Sim") {_,_->
+                recreate()
+            }
+            .setNegativeButton("Não"){_,_->}
+            .setCancelable(false)
+            .show()
 
-    }
+        }
 }

@@ -3,6 +3,7 @@ package com.example.gerenciadordeencomendas.repository
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
 import com.example.gerenciadordeencomendas.model.Encomenda
 import com.example.gerenciadordeencomendas.model.Usuario
 import com.example.gerenciadordeencomendas.utils.Utils
@@ -57,11 +58,12 @@ class Repository {
 
     }
 
-    fun buscaTodasEncomendas() {
+    fun buscaTodasEncomendas(): LiveData<List<Encomenda>> {
+        val liveDataEncomenda = MutableLiveData<List<Encomenda>>()
         val usuarioId = auth.currentUser?.uid
         db.collection("Encomendas")
             .orderBy("dataCriado", Query.Direction.DESCENDING)
-            .whereEqualTo("usuarioId", usuarioId)
+        .whereEqualTo("usuarioId", usuarioId)
             .get().addOnCompleteListener {
                 if (it.isSuccessful) {
                     val encomenda: List<Encomenda> = emptyList()
@@ -88,12 +90,13 @@ class Repository {
                         liveDataEncomenda.value = encomendas
                     }
                 }
+
             }
+        return liveDataEncomenda
     }
 
-    val liveDataEncomenda = MutableLiveData<List<Encomenda>>()
-
-    fun buscaEncomendaPorId(encomendaId: String) {
+    fun buscaEncomendaPorId(encomendaId: String): LiveData<Encomenda> {
+        val liveDataEncomendaId = MutableLiveData<Encomenda>()
         db.collection("Encomendas")
             .document(encomendaId)
             .addSnapshotListener { documento, error ->
@@ -119,9 +122,8 @@ class Repository {
 
                 }
             }
+        return liveDataEncomendaId
     }
-
-    val liveDataEncomendaId = MutableLiveData<Encomenda>()
 
     fun atualizaStatus(encomendaId: String, status: String) {
         val data = Utils().dataHora()

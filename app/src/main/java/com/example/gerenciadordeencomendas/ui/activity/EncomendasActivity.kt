@@ -9,6 +9,7 @@ import com.example.gerenciadordeencomendas.model.Encomenda
 import com.example.gerenciadordeencomendas.ui.activity.extensions.transacaoFragment
 import com.example.gerenciadordeencomendas.ui.activity.fragment.DetalheEncomendaFragment
 import com.example.gerenciadordeencomendas.ui.activity.fragment.ListaEncomendasFragment
+import com.example.gerenciadordeencomendas.utils.verificaConexao
 
 private const val TAG_DETALHE_ENCOMENDA = "detalhe_encomenda"
 class EncomendasActivity : AppCompatActivity() {
@@ -22,6 +23,7 @@ class EncomendasActivity : AppCompatActivity() {
         if (supportFragmentManager.findFragmentByTag(TAG_DETALHE_ENCOMENDA) != null){
             supportActionBar?.hide()
         }
+
     }
 
     init {
@@ -34,6 +36,7 @@ class EncomendasActivity : AppCompatActivity() {
                 }
                 is DetalheEncomendaFragment ->{
                     configuraDetalheEncomendaFragment(fragment)
+                    verificaConexao()
                 }
             }
 

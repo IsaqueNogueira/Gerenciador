@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.Color
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.gerenciadordeencomendas.R
@@ -19,9 +20,11 @@ class DetalheEncomendaAdapter(
     evento: List<Event> = emptyList()
 ) : RecyclerView.Adapter<DetalheEncomendaAdapter.ViewHolder>() {
 
+
     private val evento = evento.toMutableList()
     private lateinit var encomendaId: String
     private lateinit var ultimoStatus: Event
+    private lateinit var primeiroStatus: Event
 
     private val repository by lazy {
         Repository()
@@ -57,6 +60,11 @@ class DetalheEncomendaAdapter(
                 }
 
             }
+
+            if(evento.events != primeiroStatus.events){
+                binding.itemRastreioLinhaDoTempo2.visibility = View.VISIBLE
+            }
+
             if(evento.comment != null)  {
                 subStatus.text =
                     evento.local + " - " + evento.city + "/" + evento.uf + "\n" + evento.comment
@@ -66,15 +74,10 @@ class DetalheEncomendaAdapter(
                 status.setTextColor(Color.parseColor("#000000"))
                 subStatus.setTextColor(Color.parseColor("#000000"))
                 circuloLinhaDoTempo.setBackgroundResource(R.drawable.view_circular_preto)
+                binding.itemRastreioLinhaDoTempo.visibility = View.GONE
             }
 
-            var statusAtualizar: String
-            if (ultimoStatus.events == "Objeto entregue ao destinatário"){
-                 statusAtualizar = "Entregue"
-            }else{
-                statusAtualizar = ultimoStatus.events
-            }
-            repository.atualizaStatus(encomendaId, statusAtualizar)
+            repository.atualizaStatus(encomendaId, ultimoStatus.events)
 
         }
 
@@ -93,9 +96,10 @@ class DetalheEncomendaAdapter(
 
     override fun getItemCount(): Int = evento.size
 
-    fun atualiza(evento: List<Event>, encomendaId: String, ultimoStatus: Event) {
+    fun atualiza(evento: List<Event>, encomendaId: String, ultimoStatus: Event, primeiroStatus: Event) {
         this.encomendaId = encomendaId
         this.ultimoStatus = ultimoStatus
+        this.primeiroStatus = primeiroStatus
         this.evento.clear()
         this.evento.addAll(evento)
         notifyDataSetChanged()

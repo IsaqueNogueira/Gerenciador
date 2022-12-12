@@ -7,14 +7,12 @@
     android:layout_height="wrap_content"
     android:focusable="true"
     android:clickable="true"
-    android:layout_marginStart="10dp"
-    android:layout_marginEnd="10dp"
-    tools:ignore="UnusedAttribute"
-    app:cardElevation="5dp">
+    >
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        >
 
         <View
             android:id="@+id/item_encomenda_icon"
@@ -72,7 +70,7 @@
             android:id="@+id/item_encomenda_linha"
             android:layout_width="0dp"
             android:layout_height="1dp"
-            android:background="@color/purple_500"
+            android:background="@color/cinza_fraco"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

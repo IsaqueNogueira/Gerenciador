@@ -29,7 +29,7 @@ class ListaEncomendasFragment : Fragment() {
         } ?: throw IllegalArgumentException("Contexto inválido")
     }
 
-   private lateinit var binding : ListaEncomendasBinding
+    private lateinit var binding: ListaEncomendasBinding
 
     private val viewModel by lazy {
         val repository = Repository()
@@ -42,7 +42,6 @@ class ListaEncomendasFragment : Fragment() {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
         excluirEncomenda()
-
     }
 
     override fun onCreateView(
@@ -63,6 +62,7 @@ class ListaEncomendasFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         configuraRecyclerview()
+        configuraAdapter()
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -79,6 +79,7 @@ class ListaEncomendasFragment : Fragment() {
     }
 
     private fun configuraAlertDialogSair(it: Context) {
+
         AlertDialog.Builder(it)
             .setTitle("Deseja realmente sair?")
             .setPositiveButton("Sim") { _, _ ->
@@ -90,21 +91,22 @@ class ListaEncomendasFragment : Fragment() {
     }
 
     private fun configuraRecyclerview() {
-        viewModel.buscaTodasEncomendas()
-        viewModel.liveDataEncomenda.observe(this, Observer { encomendas ->
+        viewModel.buscaTodasEncomendas().observe(this, Observer{ encomendas ->
             adapter.atualiza(encomendas)
-            Log.i("TAG", "mostraEncomenda: atualiza")
-            val recyclerView = binding.listaEncomendaRecyclerview
-            recyclerView.adapter = adapter
-            adapter.quandoClicarNoItem = {
-                quandoClicarNoItem(it)
-            }
         })
+    }
+
+    private fun configuraAdapter() {
+        val recyclerView = binding.listaEncomendaRecyclerview
+        recyclerView.adapter = adapter
+        adapter.quandoClicarNoItem = {
+            quandoClicarNoItem(it)
+        }
     }
 
     private fun excluirEncomenda() {
         adapter.quandoSegurarNoItem = { encomenda ->
-            context?.let {context->
+            context?.let { context ->
                 configuraAlertDialogExcluirEncomenda(context, encomenda)
             }
         }

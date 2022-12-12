@@ -18,12 +18,14 @@ import com.example.gerenciadordeencomendas.ui.activity.CHAVE_ENCOMENDA_ID
 import com.example.gerenciadordeencomendas.ui.activity.viewmodel.DetalheEncomendaViewModel
 import com.example.gerenciadordeencomendas.ui.activity.viewmodel.factory.DetalheEncomendaViewModelFactory
 import com.example.gerenciadordeencomendas.utils.Utils
+import com.example.gerenciadordeencomendas.utils.verificaConexao
 import com.example.gerenciadordeencomendas.webcliente.model.ApiMelhorRastreio
 import com.example.gerenciadordeencomendas.webcliente.model.Event
 import kotlinx.coroutines.launch
 
 
 class DetalheEncomendaFragment : Fragment() {
+    var verificaConexao: () -> Unit = {}
     var botaoVoltar: () -> Unit = {}
     private val encomendaId: String by lazy {
         arguments?.getString(CHAVE_ENCOMENDA_ID) ?: throw IllegalArgumentException("Id inválido")
@@ -48,7 +50,7 @@ class DetalheEncomendaFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = DetalheEncomendaBinding.inflate(layoutInflater, container, false)
         return binding.root
     }
@@ -56,13 +58,11 @@ class DetalheEncomendaFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         mostraEncomenda()
-//        clicouBotaoVoltar()
     }
 
     private fun mostraEncomenda() {
         mostraProgressbar()
-        viewModel.buscaEncomendaPorId(encomendaId)
-        viewModel.liveDataEncomendaId.observe(this, Observer {
+        viewModel.buscaEncomendaPorId(encomendaId).observe(this, Observer {
             lifecycleScope.launch {
 
                 val nomePacote = binding.detalheEncomendaNomePacote
@@ -71,41 +71,55 @@ class DetalheEncomendaFragment : Fragment() {
                 codigoRastreio.text = it.codigoRastreio
 
                 viewModel.buscaWebClienteMelhorRastreio(it.codigoRastreio)?.let {
-                    val rastreioMelhorRastreio = it
-
-                    val tamanhoEvent = rastreioMelhorRastreio.data.events.size - 1
-                    val ultimoStatus = rastreioMelhorRastreio.data.events.get(tamanhoEvent)
-                    val primeiroStatus = rastreioMelhorRastreio.data.events.get(0)
+                    if (it.success == true) {
 
 
-                    if (ultimoStatus.events == "Objeto entregue ao destinatário") {
-                        activity?.title = "Entregue"
-                    } else {
-                        activity?.title = "Em trânsito"
-                    }
+                        val rastreioMelhorRastreio = it
+
+                        val tamanhoEvent = rastreioMelhorRastreio.data.events.size - 1
+                        val ultimoStatus = rastreioMelhorRastreio.data.events.get(tamanhoEvent)
+                        val primeiroStatus = rastreioMelhorRastreio.data.events.get(0)
+
+
+                        if (ultimoStatus.events == "Objeto entregue ao destinatário") {
+                            activity?.title = "Entregue"
+                        } else {
+                            activity?.title = "Em trânsito"
+                        }
 
 //                diasDePostagem(ultimoStatus, primeiroStatus)
 
-                    adpter.atualiza(rastreioMelhorRastreio.data.events, encomendaId, ultimoStatus)
-                    val recyclerView = binding.detalheEncomendaRecyclerview
-                    val layoutManager = LinearLayoutManager(context)
-                    layoutManager.reverseLayout = true
-                    layoutManager.stackFromEnd = true
-                    recyclerView.layoutManager = layoutManager
-                    recyclerView.adapter = adpter
-                    ocultaProgressbar()
+                        adpter.atualiza(
+                            rastreioMelhorRastreio.data.events,
+                            encomendaId,
+                            ultimoStatus,
+                            primeiroStatus
+                        )
+                        val recyclerView = binding.detalheEncomendaRecyclerview
+                        val layoutManager = LinearLayoutManager(context)
+                        layoutManager.reverseLayout = true
+                        layoutManager.stackFromEnd = true
+                        recyclerView.layoutManager = layoutManager
+                        recyclerView.adapter = adpter
+                        ocultaProgressbar()
+                    } else {
+                        mostraErro()
+                    }
                 } ?: mostraErro()
             }
 
         })
+
     }
 
-    private fun mostraErro(){
+    private fun mostraErro() {
+        verificaConexao()
         val mensagemErro = binding.detalheEncomendaMensagemErro
         val iconeErro = binding.detalheEncomendaIconErro
         mensagemErro.visibility = View.VISIBLE
         iconeErro.visibility = View.VISIBLE
         ocultaProgressbar()
+
     }
 
 //    private fun diasDePostagem(ultimoStatus: Event, primeiroStatus: Event) {
@@ -138,12 +152,5 @@ class DetalheEncomendaFragment : Fragment() {
     private fun mostraProgressbar() {
         binding.detalheEncomendaProgressbar.visibility = View.VISIBLE
     }
-
-
-//    private fun clicouBotaoVoltar() {
-//        binding.detalheEncomendaVoltar.setOnClickListener {
-//            botaoVoltar()
-//        }
-//    }
 
 }
