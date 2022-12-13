@@ -1,6 +1,7 @@
 package com.example.gerenciadordeencomendas.utils
 
-import com.google.type.DateTime
+import android.annotation.SuppressLint
+import android.util.Log
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -28,6 +29,7 @@ class Utils {
     }
 
 
+    @SuppressLint("SuspiciousIndentation")
     fun dias(diaPostado: String, diaHoje : String): Int {
         val dataFormat = SimpleDateFormat("dd/MM/yyyy")
         val data1: Calendar = Calendar.getInstance()
@@ -35,10 +37,19 @@ class Utils {
 
             data1.setTime(dataFormat.parse(diaPostado))
             data2.setTime(dataFormat.parse(diaHoje))
+        Log.i("TAG", "dias: $data1 $data2")
 
         val dias = data2.get(Calendar.DAY_OF_YEAR) - data1.get(Calendar.DAY_OF_YEAR)
 
        return dias
+    }
+
+    fun formataDataConvertida(data: String): String {
+        val formatter = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+        val date = formatter.parse(data)
+        var dateTimeFormat = SimpleDateFormat("dd/MM/yyyy HH:mm", Locale("PT", "BR"))
+        val  data = dateTimeFormat.format(date)
+        return data
     }
 
 }

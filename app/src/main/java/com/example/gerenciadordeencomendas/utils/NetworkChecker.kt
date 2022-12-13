@@ -1,12 +1,14 @@
 package com.example.gerenciadordeencomendas.utils
 
 import android.app.AlertDialog
+import android.content.ClipboardManager
 import android.content.Context
 import android.net.ConnectivityManager
 import androidx.appcompat.app.AppCompatActivity
 import com.example.gerenciadordeencomendas.R
 
 fun AppCompatActivity.verificaConexao() {
+
 
     val manager =
         applicationContext.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
@@ -28,7 +30,6 @@ fun AppCompatActivity.verificaConexao() {
                 recreate()
             }
             .setNegativeButton("Não"){_,_->}
-            .setCancelable(false)
             .show()
 
         }

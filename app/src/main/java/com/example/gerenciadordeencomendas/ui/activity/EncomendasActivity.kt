@@ -1,7 +1,11 @@
 package com.example.gerenciadordeencomendas.ui.activity
 
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentOnAttachListener
 import com.example.gerenciadordeencomendas.R
@@ -10,6 +14,11 @@ import com.example.gerenciadordeencomendas.ui.activity.extensions.transacaoFragm
 import com.example.gerenciadordeencomendas.ui.activity.fragment.DetalheEncomendaFragment
 import com.example.gerenciadordeencomendas.ui.activity.fragment.ListaEncomendasFragment
 import com.example.gerenciadordeencomendas.utils.verificaConexao
+import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+import java.util.*
 
 private const val TAG_DETALHE_ENCOMENDA = "detalhe_encomenda"
 class EncomendasActivity : AppCompatActivity() {
@@ -33,6 +42,7 @@ class EncomendasActivity : AppCompatActivity() {
             when(fragment){
                 is ListaEncomendasFragment ->{
                     configuraListaEncomendaFragment(fragment)
+
                 }
                 is DetalheEncomendaFragment ->{
                     configuraDetalheEncomendaFragment(fragment)
@@ -45,6 +55,9 @@ class EncomendasActivity : AppCompatActivity() {
     }
 
     private fun configuraDetalheEncomendaFragment(fragment: DetalheEncomendaFragment) {
+
+        fragment.copia = this::copiar
+
         fragment.botaoVoltar = {
             supportFragmentManager.findFragmentByTag(TAG_DETALHE_ENCOMENDA)?.let {
                 removeFragmentDetalheEncomenda(fragment)
@@ -52,8 +65,15 @@ class EncomendasActivity : AppCompatActivity() {
         }
     }
 
+    private fun copiar(encomenda: Encomenda){
+        val clipBoard = applicationContext.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+        val clip: ClipData = ClipData.newPlainText("simple text", encomenda.codigoRastreio)
+        clipBoard.setPrimaryClip(clip)
+    }
+
     private fun removeFragmentDetalheEncomenda(fragment: DetalheEncomendaFragment) {
         transacaoFragment {
+            addToBackStack(null)
             remove(fragment)
         }
         supportFragmentManager.popBackStack()

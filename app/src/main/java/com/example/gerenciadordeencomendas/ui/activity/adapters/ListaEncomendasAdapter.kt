@@ -1,9 +1,10 @@
-package com.example.gerenciadordeencomendas.adapters
+package com.example.gerenciadordeencomendas.ui.activity.adapters
 
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Color
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.gerenciadordeencomendas.R
@@ -54,8 +55,13 @@ class ListaEncomendasAdapter(
             dataAtualizado.text = encomenda.dataAtualizado
 
             if (encomenda.status == "Objeto entregue ao destinatário") {
-                binding.itemEncomendaIcon.setBackgroundResource(R.drawable.ic_packageentregueverde)
+                binding.itemEncomendaCheck.visibility = View.VISIBLE
+                binding.itemEncomendaIconEntregue.visibility = View.VISIBLE
                 nomePacote.setTextColor(Color.parseColor("#7E7E7E"))
+            }else{
+                binding.itemEncomendaCheck.visibility = View.GONE
+                binding.itemEncomendaIconEntregue.visibility = View.GONE
+                nomePacote.setTextColor(Color.parseColor("#000000"))
             }
 
         }

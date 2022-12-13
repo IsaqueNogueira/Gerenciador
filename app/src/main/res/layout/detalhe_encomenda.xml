@@ -1,37 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@color/cinza_claro"
-    >
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/cinza_claro">
 
     <View
         android:id="@+id/detalhe_encomenda_titulo"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/detalhe_encomenda_linha"
         android:background="@color/purple_500"
         android:paddingBottom="5dp"
-        />
+        app:layout_constraintBottom_toTopOf="@id/detalhe_encomenda_linha"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/detalhe_encomenda_nomePacote"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginStart="20dp"
         android:textColor="@color/white"
         android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@id/detalhe_encomenda_codigoRastreio"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/detalhe_encomenda_codigoRastreio"
         tools:text="Flamengo, corinthians, vasco, fluminense, brasil, flamengo, brasil, flamengo, corinthia,sao paulo, fluminense, cruzeiro, flamengo, brasil, simone,vanessa" />
 
     <TextView
@@ -39,18 +37,28 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/white"
+        android:layout_marginTop="5dp"
+        android:textIsSelectable="true"
         app:layout_constraintStart_toStartOf="@id/detalhe_encomenda_nomePacote"
         app:layout_constraintTop_toBottomOf="@id/detalhe_encomenda_nomePacote"
-        tools:text="AB123456789BR"
-        android:textIsSelectable="true"
-        />
+        tools:text="AB123456789BR" />
+
+    <ImageView
+        android:id="@+id/detalhe_encomenda_botao_copiar"
+        android:layout_width="16dp"
+        android:layout_height="16dp"
+        android:layout_marginStart="5dp"
+        android:src="@drawable/ic_copy"
+        app:layout_constraintBottom_toBottomOf="@id/detalhe_encomenda_codigoRastreio"
+        app:layout_constraintStart_toEndOf="@id/detalhe_encomenda_codigoRastreio"
+        app:layout_constraintTop_toTopOf="@id/detalhe_encomenda_codigoRastreio" />
 
     <TextView
         android:id="@+id/detalhe_encomenda_diasenviado"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textColor="@color/white"
         android:textSize="11sp"
-        android:textColor="@color/black"
         app:layout_constraintStart_toStartOf="@id/detalhe_encomenda_codigoRastreio"
         app:layout_constraintTop_toBottomOf="@id/detalhe_encomenda_codigoRastreio"
         tools:text="Enviado há: 25 dias" />
@@ -69,16 +77,15 @@
         android:id="@+id/detalhe_encomenda_recyclerview"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
         android:layout_marginStart="10dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="10dp"
+        android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/detalhe_encomenda_linha"
-        tools:listitem="@layout/item_rastreio"
-        />
+        tools:listitem="@layout/item_rastreio" />
 
     <TextView
         android:id="@+id/detalhe_encomenda_mensagemErro"

@@ -18,13 +18,48 @@
             android:id="@+id/item_encomenda_icon"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:background="@drawable/ic_resource_package"
+            android:background="@drawable/view_circular_transito"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginStart="5dp"
             app:layout_constraintHorizontal_bias="0.02"
+        />
+
+        <ImageView
+            android:id="@+id/item_encomenda_airplane"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_airplane"
+            app:layout_constraintStart_toStartOf="@id/item_encomenda_icon"
+            app:layout_constraintEnd_toEndOf="@id/item_encomenda_icon"
+            app:layout_constraintTop_toTopOf="@id/item_encomenda_icon"
+            app:layout_constraintBottom_toBottomOf="@id/item_encomenda_icon"
+            />
+
+        <View
+            android:id="@+id/item_encomenda_icon_entregue"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/view_circular_verde"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.02"
+            android:visibility="gone"
+        />
+
+        <ImageView
+            android:id="@+id/item_encomenda_check"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_check"
+            app:layout_constraintStart_toStartOf="@id/item_encomenda_icon_entregue"
+            app:layout_constraintEnd_toEndOf="@id/item_encomenda_icon_entregue"
+            app:layout_constraintTop_toTopOf="@id/item_encomenda_icon_entregue"
+            app:layout_constraintBottom_toBottomOf="@id/item_encomenda_icon_entregue"
+            android:visibility="gone"
             />
 
         <TextView
@@ -43,6 +78,8 @@
             android:maxLines="2"
             tools:text="Flamengo, brasil ,corinthians, fluminense, vasco, flamengo, holando, frança, brasil, flamengo, fluminense, luis, teste, flamengo"
             />
+
+
         <TextView
             android:id="@+id/item_encomenda_status"
             android:layout_width="wrap_content"

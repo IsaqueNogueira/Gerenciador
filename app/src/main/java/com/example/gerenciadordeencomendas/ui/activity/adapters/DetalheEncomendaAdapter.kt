@@ -1,4 +1,4 @@
-package com.example.gerenciadordeencomendas.adapters
+package com.example.gerenciadordeencomendas.ui.activity.adapters
 
 import android.content.Context
 import android.graphics.Color
@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.gerenciadordeencomendas.R
 import com.example.gerenciadordeencomendas.databinding.ItemRastreioBinding
 import com.example.gerenciadordeencomendas.repository.Repository
+import com.example.gerenciadordeencomendas.utils.Utils
 import com.example.gerenciadordeencomendas.webcliente.model.Event
 import com.example.gerenciadordeencomendas.webcliente.model.Evento
 import java.text.SimpleDateFormat
@@ -42,10 +43,10 @@ class DetalheEncomendaAdapter(
             status.text = evento.events
 
             val subStatus = binding.itemRastreioSubstatus
-            val circuloLinhaDoTempo = binding.itemRastreioLinhaDoTempoCirculo
 
             val data = binding.itemRastreioData
-            data.text = evento.date
+            val date = Utils().formataDataConvertida(evento.date)
+            data.text = date
 
             when {
                 evento.local == "País" -> {
@@ -59,6 +60,40 @@ class DetalheEncomendaAdapter(
                     subStatus.text = evento.local + " - " + evento.city + "/" + evento.uf
                 }
 
+
+
+            }
+
+            if(evento.events == "Objeto entregue ao destinatário"){
+                binding.itemRastreioLinhaDoTempoCirculoEntregue.visibility = View.VISIBLE
+                binding.itemRastreioCheck.visibility = View.VISIBLE
+            }
+            if(evento.events == "Objeto saiu para entrega ao destinatário"){
+                binding.itemRastreioLinhaDoTempoCirculoSaiuParaEntrega.visibility = View.VISIBLE
+                binding.itemRastreioCarrinho.visibility = View.VISIBLE
+            }
+
+            if(evento.events == "Objeto postado" || evento.events == "Objeto postado após o horário limite da unidade"){
+                binding.itemRastreioLinhaDoTempoCirculoPostado.visibility = View.VISIBLE
+                binding.itemRastreioPostado.visibility = View.VISIBLE
+            }
+
+            if (evento.events == "Objeto recebido pelos Correios do Brasil"){
+                binding.itemRastreioLinhaDoTempoCirculoBrasil.visibility = View.VISIBLE
+                binding.itemRastreioBrasil.visibility = View.VISIBLE
+            }
+
+            if (evento.events == "Aguardando pagamento"){
+                binding.itemRastreioLinhaDoTempoCirculoTaxa.visibility = View.VISIBLE
+                binding.itemRastreioTaxa.visibility = View.VISIBLE
+            }
+            if (evento.events == "Pagamento confirmado"){
+                binding.itemRastreioLinhaDoTempoCirculoPagamentoConfirmado.visibility = View.VISIBLE
+                binding.itemRastreioPagamento.visibility = View.VISIBLE
+            }
+            if (evento.events == "Fiscalização aduaneira finalizada"){
+                binding.itemRastreioLinhaDoTempoCirculoFiscalizacao.visibility = View.VISIBLE
+                binding.itemRastreioFiscalizacao.visibility = View.VISIBLE
             }
 
             if(evento.events != primeiroStatus.events){
@@ -73,7 +108,6 @@ class DetalheEncomendaAdapter(
                 evento.date == ultimoStatus.date ){
                 status.setTextColor(Color.parseColor("#000000"))
                 subStatus.setTextColor(Color.parseColor("#000000"))
-                circuloLinhaDoTempo.setBackgroundResource(R.drawable.view_circular_preto)
                 binding.itemRastreioLinhaDoTempo.visibility = View.GONE
             }
 

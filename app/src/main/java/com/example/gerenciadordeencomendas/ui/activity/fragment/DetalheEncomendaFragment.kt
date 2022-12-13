@@ -5,14 +5,16 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.gerenciadordeencomendas.adapters.DetalheEncomendaAdapter
+import com.example.gerenciadordeencomendas.ui.activity.adapters.DetalheEncomendaAdapter
 import com.example.gerenciadordeencomendas.databinding.DetalheEncomendaBinding
+import com.example.gerenciadordeencomendas.model.Encomenda
 import com.example.gerenciadordeencomendas.repository.Repository
 import com.example.gerenciadordeencomendas.ui.activity.CHAVE_ENCOMENDA_ID
 import com.example.gerenciadordeencomendas.ui.activity.viewmodel.DetalheEncomendaViewModel
@@ -22,11 +24,14 @@ import com.example.gerenciadordeencomendas.utils.verificaConexao
 import com.example.gerenciadordeencomendas.webcliente.model.ApiMelhorRastreio
 import com.example.gerenciadordeencomendas.webcliente.model.Event
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 class DetalheEncomendaFragment : Fragment() {
     var verificaConexao: () -> Unit = {}
     var botaoVoltar: () -> Unit = {}
+    var copia: (encomenda: Encomenda) -> Unit = {}
     private val encomendaId: String by lazy {
         arguments?.getString(CHAVE_ENCOMENDA_ID) ?: throw IllegalArgumentException("Id inválido")
     }
@@ -62,15 +67,22 @@ class DetalheEncomendaFragment : Fragment() {
 
     private fun mostraEncomenda() {
         mostraProgressbar()
-        viewModel.buscaEncomendaPorId(encomendaId).observe(this, Observer {
+        viewModel.buscaEncomendaPorId(encomendaId).observe(this, Observer { encomenda ->
             lifecycleScope.launch {
 
                 val nomePacote = binding.detalheEncomendaNomePacote
-                nomePacote.text = it.nomePacote
+                nomePacote.text = encomenda.nomePacote
                 val codigoRastreio = binding.detalheEncomendaCodigoRastreio
-                codigoRastreio.text = it.codigoRastreio
+                codigoRastreio.text = encomenda.codigoRastreio
 
-                viewModel.buscaWebClienteMelhorRastreio(it.codigoRastreio)?.let {
+                val botaoCopiar = binding.detalheEncomendaBotaoCopiar
+
+                botaoCopiar.setOnClickListener {
+                    copia(encomenda)
+                    Toast.makeText(context, "Código de rastreio copiado", Toast.LENGTH_SHORT).show()
+                }
+
+                viewModel.buscaWebClienteMelhorRastreio(encomenda.codigoRastreio)?.let {
                     if (it.success == true) {
 
 
@@ -87,7 +99,7 @@ class DetalheEncomendaFragment : Fragment() {
                             activity?.title = "Em trânsito"
                         }
 
-//                diasDePostagem(ultimoStatus, primeiroStatus)
+                        diasDePostagem(ultimoStatus, primeiroStatus)
 
                         adpter.atualiza(
                             rastreioMelhorRastreio.data.events,
@@ -122,28 +134,33 @@ class DetalheEncomendaFragment : Fragment() {
 
     }
 
-//    private fun diasDePostagem(ultimoStatus: Event, primeiroStatus: Event) {
-//        val dataPostagem = primeiroStatus.date
-//        var dataHoje = Utils().data()
-//        if (ultimoStatus.events == "Objeto entregue ao destinatário") {
-//            dataHoje = ultimoStatus.date
-//        }
-//        val diasEnviado = Utils().dias(dataPostagem, dataHoje)
-//        var dia: String
-//        var textoEnviado: String
-//        if (diasEnviado < 2) {
-//            dia = "dia"
-//        } else {
-//            dia = "dias"
-//        }
-//
-//        if (ultimoStatus.events == "Objeto entregue ao destinatário") {
-//            textoEnviado = "Entregue em:"
-//        } else {
-//            textoEnviado = "Enviado há:"
-//        }
-//        binding.detalheEncomendaDiasenviado.text = "$textoEnviado $diasEnviado $dia"
-//    }
+    private fun diasDePostagem(ultimoStatus: Event, primeiroStatus: Event) {
+        val dataPostagem = primeiroStatus.date
+
+        val data = Utils().formataDataConvertida(dataPostagem)
+
+        var dataHoje = Utils().data()
+        if (ultimoStatus.events == "Objeto entregue ao destinatário") {
+            val data = Utils().formataDataConvertida(ultimoStatus.date)
+            dataHoje = data
+        }
+        val diasEnviado = Utils().dias(data, dataHoje)
+
+        var dia: String
+        var textoEnviado: String
+        if (diasEnviado < 2) {
+            dia = "dia"
+        } else {
+            dia = "dias"
+        }
+
+        if (ultimoStatus.events == "Objeto entregue ao destinatário") {
+            textoEnviado = "Entregue em:"
+        } else {
+            textoEnviado = "Enviado há:"
+        }
+        binding.detalheEncomendaDiasenviado.text = "$textoEnviado $diasEnviado $dia"
+    }
 
     private fun ocultaProgressbar() {
         binding.detalheEncomendaProgressbar.visibility = View.GONE
