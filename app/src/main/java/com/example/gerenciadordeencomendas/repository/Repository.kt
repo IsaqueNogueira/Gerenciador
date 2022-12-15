@@ -29,6 +29,7 @@ class Repository {
     private val webClientMelhorRastreio by lazy {
         RastreioWebClientMelhorEnvio()
     }
+
     fun cadastraUsuario(usuario: Usuario): Task<AuthResult> {
         val resultado = auth.createUserWithEmailAndPassword(usuario.email, usuario.senha)
             .addOnCompleteListener {
@@ -63,19 +64,20 @@ class Repository {
         val usuarioId = auth.currentUser?.uid
         db.collection("Encomendas")
             .orderBy("dataCriado", Query.Direction.DESCENDING)
-        .whereEqualTo("usuarioId", usuarioId)
+            .whereEqualTo("usuarioId", usuarioId)
             .get().addOnCompleteListener {
                 if (it.isSuccessful) {
                     val encomenda: List<Encomenda> = emptyList()
                     val encomendas = encomenda.toMutableList()
                     for (document in it.getResult()) {
                         val usuarioId = document.getString("usuarioId").toString()
-                        val codigoRastreio = document.getString("codigoRastrio").toString()
+                        val codigoRastreio = document.getString("codigoRastreio").toString()
                         val nomePacote = document.getString("nomePacote").toString()
                         val status = document.getString("status").toString()
                         val dataCriado = document.getLong("dataCriado")!!
                         val dataAtualizado = document.getString("dataAtualizado").toString()
                         val firebaseId = document.id
+                        val dataHoraApi = document.getString("dataHoraApi").toString()
                         encomendas.add(
                             Encomenda(
                                 firebaseId,
@@ -84,7 +86,8 @@ class Repository {
                                 nomePacote,
                                 status,
                                 dataCriado,
-                                dataAtualizado
+                                dataAtualizado,
+                                dataHoraApi
                             )
                         )
                         liveDataEncomenda.value = encomendas
@@ -108,6 +111,7 @@ class Repository {
                         val status = documento.getString("status").toString()
                         val dataAtualizado = documento.getString("dataAtualizado").toString()
                         val firebaseId = documento.id
+                        val dataHoraApi = documento.getString("dataHoraApi").toString()
                         val encomendas = Encomenda(
                             firebaseId,
                             usuarioId,
@@ -115,9 +119,11 @@ class Repository {
                             nomePacote,
                             status,
                             dataCriado,
-                            dataAtualizado
+                            dataAtualizado,
+                            dataHoraApi
                         )
                         liveDataEncomendaId.value = encomendas
+
                     }
 
                 }
@@ -125,10 +131,11 @@ class Repository {
         return liveDataEncomendaId
     }
 
-    fun atualizaStatus(encomendaId: String, status: String) {
+
+    fun atualizaStatus(encomendaId: String, status: String, dataHoraApi: String) {
         val data = Utils().dataHora()
         db.collection("Encomendas").document(encomendaId)
-            .update("dataAtualizado", "Atualizado em: $data", "status", status)
+            .update("dataAtualizado", "Atualizado em: $data", "status", status, "dataHoraApi",dataHoraApi )
             .addOnCompleteListener {
 
             }

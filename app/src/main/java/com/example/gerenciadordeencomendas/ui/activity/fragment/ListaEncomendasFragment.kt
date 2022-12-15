@@ -1,24 +1,18 @@
 package com.example.gerenciadordeencomendas.ui.activity.fragment
 
-import android.content.ClipData
-import android.content.ClipboardManager
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.*
-import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import androidx.core.content.ContextCompat.getSystemService
-import androidx.core.view.get
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.gerenciadordeencomendas.R
-import com.example.gerenciadordeencomendas.ui.activity.adapters.ListaEncomendasAdapter
 import com.example.gerenciadordeencomendas.databinding.ListaEncomendasBinding
 import com.example.gerenciadordeencomendas.model.Encomenda
 import com.example.gerenciadordeencomendas.repository.Repository
+import com.example.gerenciadordeencomendas.ui.activity.adapters.ListaEncomendasAdapter
 import com.example.gerenciadordeencomendas.ui.activity.viewmodel.ListaEncomendasViewModel
 import com.example.gerenciadordeencomendas.ui.activity.viewmodel.factory.ListaEncomendasViewModelFactory
 
@@ -26,6 +20,7 @@ class ListaEncomendasFragment : Fragment() {
     var quandoClicarSair: () -> Unit = {}
     var quandoClicarAdicionarEncomenda: () -> Unit = {}
     var quandoClicarNoItem: (encomenda: Encomenda) -> Unit = {}
+
 
     private val adapter by lazy {
         context?.let {

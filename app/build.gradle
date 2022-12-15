@@ -58,6 +58,8 @@ dependencies {
     implementation 'com.google.firebase:firebase-auth'
     implementation 'com.google.firebase:firebase-messaging:23.1.1'
 
+    implementation "androidx.lifecycle:lifecycle-extensions:2.0.0"
+
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle_version"
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.1")
 

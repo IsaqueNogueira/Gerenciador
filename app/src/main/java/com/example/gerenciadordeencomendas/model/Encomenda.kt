@@ -9,5 +9,6 @@ data class Encomenda(
     val nomePacote: String,
     val status: String,
     val dataCriado: Long,
-    val dataAtualizado: String
+    val dataAtualizado: String,
+    val dataHoraApi: String
 )

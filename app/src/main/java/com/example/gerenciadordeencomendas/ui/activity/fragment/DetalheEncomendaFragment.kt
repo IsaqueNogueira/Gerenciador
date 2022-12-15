@@ -67,7 +67,7 @@ class DetalheEncomendaFragment : Fragment() {
 
     private fun mostraEncomenda() {
         mostraProgressbar()
-        viewModel.buscaEncomendaPorId(encomendaId).observe(this, Observer { encomenda ->
+        viewModel.buscaEncomendaPorId(encomendaId).observe(viewLifecycleOwner, Observer { encomenda ->
             lifecycleScope.launch {
 
                 val nomePacote = binding.detalheEncomendaNomePacote
@@ -84,7 +84,6 @@ class DetalheEncomendaFragment : Fragment() {
 
                 viewModel.buscaWebClienteMelhorRastreio(encomenda.codigoRastreio)?.let {
                     if (it.success == true) {
-
 
                         val rastreioMelhorRastreio = it
 

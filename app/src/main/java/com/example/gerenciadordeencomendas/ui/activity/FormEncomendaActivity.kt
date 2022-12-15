@@ -42,9 +42,10 @@ class FormEncomendaActivity : AppCompatActivity() {
             val dataCriado = Utils().dataHoraMillisegundos()
             val status = "Toque para atualizar"
             val firebaseId = ""
+            val dataHoraApi = ""
             if (!TextUtils.isEmpty(codigoRastreio) && !TextUtils.isEmpty(nomePacote)) {
                 mostraProgressBar()
-                val encomenda = Encomenda(firebaseId, usuarioId.toString(), codigoRastreio, nomePacote, status, dataCriado, dataAtualizado)
+                val encomenda = Encomenda(firebaseId, usuarioId.toString(), codigoRastreio, nomePacote, status, dataCriado, dataAtualizado, dataHoraApi)
                 if (validaRastreio(codigoRastreio)) {
                     viewModel.salvarEncomenda(encomenda).addOnCompleteListener {
                         if (it.isSuccessful) {

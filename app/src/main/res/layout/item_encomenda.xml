@@ -5,103 +5,236 @@
     android:id="@+id/item_encomenda_cardview"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:focusable="true"
     android:clickable="true"
-    >
+    android:focusable="true">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        >
+        android:layout_height="match_parent">
 
         <View
             android:id="@+id/item_encomenda_icon"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:background="@drawable/view_circular_transito"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.02"
-        />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
             android:id="@+id/item_encomenda_airplane"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_airplane"
-            app:layout_constraintStart_toStartOf="@id/item_encomenda_icon"
-            app:layout_constraintEnd_toEndOf="@id/item_encomenda_icon"
-            app:layout_constraintTop_toTopOf="@id/item_encomenda_icon"
             app:layout_constraintBottom_toBottomOf="@id/item_encomenda_icon"
-            />
+            app:layout_constraintEnd_toEndOf="@id/item_encomenda_icon"
+            app:layout_constraintStart_toStartOf="@id/item_encomenda_icon"
+            app:layout_constraintTop_toTopOf="@id/item_encomenda_icon" />
 
         <View
             android:id="@+id/item_encomenda_icon_entregue"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:background="@drawable/view_circular_verde"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.02"
-            android:visibility="gone"
-        />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
             android:id="@+id/item_encomenda_check"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_check"
-            app:layout_constraintStart_toStartOf="@id/item_encomenda_icon_entregue"
-            app:layout_constraintEnd_toEndOf="@id/item_encomenda_icon_entregue"
-            app:layout_constraintTop_toTopOf="@id/item_encomenda_icon_entregue"
-            app:layout_constraintBottom_toBottomOf="@id/item_encomenda_icon_entregue"
             android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@id/item_encomenda_icon_entregue"
+            app:layout_constraintEnd_toEndOf="@id/item_encomenda_icon_entregue"
+            app:layout_constraintStart_toStartOf="@id/item_encomenda_icon_entregue"
+            app:layout_constraintTop_toTopOf="@id/item_encomenda_icon_entregue"
+
             />
+
+        <View
+            android:id="@+id/item_encomenda_linha_do_tempo_circulo_saiu_para_entrega"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/view_circular_saiu_para_entrega"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.02"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/item_encomenda_carrinho"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/ic_car"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@id/item_encomenda_linha_do_tempo_circulo_saiu_para_entrega"
+            app:layout_constraintEnd_toEndOf="@id/item_encomenda_linha_do_tempo_circulo_saiu_para_entrega"
+            app:layout_constraintStart_toStartOf="@id/item_encomenda_linha_do_tempo_circulo_saiu_para_entrega"
+            app:layout_constraintTop_toTopOf="@id/item_encomenda_linha_do_tempo_circulo_saiu_para_entrega" />
+
+        <View
+            android:id="@+id/item_encomenda_linha_do_tempo_circulo_postado"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/view_circular_postado"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.02"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/item_encomenda_postado"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/ic_location"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@id/item_encomenda_linha_do_tempo_circulo_postado"
+            app:layout_constraintEnd_toEndOf="@id/item_encomenda_linha_do_tempo_circulo_postado"
+            app:layout_constraintStart_toStartOf="@id/item_encomenda_linha_do_tempo_circulo_postado"
+            app:layout_constraintTop_toTopOf="@id/item_encomenda_linha_do_tempo_circulo_postado" />
+
+        <View
+            android:id="@+id/item_encomenda_linha_do_tempo_circulo_brasil"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/view_circular_brazil"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.02"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/item_encomenda_brasil"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/brazil"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@id/item_encomenda_linha_do_tempo_circulo_brasil"
+            app:layout_constraintEnd_toEndOf="@id/item_encomenda_linha_do_tempo_circulo_brasil"
+            app:layout_constraintStart_toStartOf="@id/item_encomenda_linha_do_tempo_circulo_brasil"
+            app:layout_constraintTop_toTopOf="@id/item_encomenda_linha_do_tempo_circulo_brasil" />
+
+        <View
+            android:id="@+id/item_encomenda_linha_do_tempo_circulo_taxa"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/view_circular_taxa"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.02"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/item_encomenda_taxa"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/ic__money"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@id/item_encomenda_linha_do_tempo_circulo_taxa"
+            app:layout_constraintEnd_toEndOf="@id/item_encomenda_linha_do_tempo_circulo_taxa"
+            app:layout_constraintStart_toStartOf="@id/item_encomenda_linha_do_tempo_circulo_taxa"
+            app:layout_constraintTop_toTopOf="@id/item_encomenda_linha_do_tempo_circulo_taxa" />
+
+        <View
+            android:id="@+id/item_encomenda_linha_do_tempo_circulo_pagamento_confirmado"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/view_circular_pagamento_confirmado"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.02"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/item_encomenda_pagamento"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/ic__money"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@id/item_encomenda_linha_do_tempo_circulo_pagamento_confirmado"
+            app:layout_constraintEnd_toEndOf="@id/item_encomenda_linha_do_tempo_circulo_pagamento_confirmado"
+            app:layout_constraintStart_toStartOf="@id/item_encomenda_linha_do_tempo_circulo_pagamento_confirmado"
+            app:layout_constraintTop_toTopOf="@id/item_encomenda_linha_do_tempo_circulo_pagamento_confirmado" />
+
+        <View
+            android:id="@+id/item_encomenda_linha_do_tempo_circulo_fiscalizacao"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/view_circular_fiscalizacao"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.02"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/item_encomenda_fiscalizacao"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/ic_priority"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@id/item_encomenda_linha_do_tempo_circulo_fiscalizacao"
+            app:layout_constraintEnd_toEndOf="@id/item_encomenda_linha_do_tempo_circulo_fiscalizacao"
+            app:layout_constraintStart_toStartOf="@id/item_encomenda_linha_do_tempo_circulo_fiscalizacao"
+            app:layout_constraintTop_toTopOf="@id/item_encomenda_linha_do_tempo_circulo_fiscalizacao" />
+
 
         <TextView
             android:id="@+id/item_encomenda_nomePacote"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toEndOf="@id/item_encomenda_icon"
-            app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginStart="10dp"
-            android:textColor="@color/black"
-            android:textStyle="bold"
             android:layout_marginTop="12dp"
             android:layout_marginEnd="5dp"
             android:ellipsize="end"
             android:maxLines="2"
-            tools:text="Flamengo, brasil ,corinthians, fluminense, vasco, flamengo, holando, frança, brasil, flamengo, fluminense, luis, teste, flamengo"
-            />
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/item_encomenda_icon"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Flamengo, brasil ,corinthians, fluminense, vasco, flamengo, holando, frança, brasil, flamengo, fluminense, luis, teste, flamengo" />
 
 
         <TextView
             android:id="@+id/item_encomenda_status"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:text="Objeto encaminhado"
-            app:layout_constraintTop_toBottomOf="@id/item_encomenda_nomePacote"
+            android:textSize="12sp"
             app:layout_constraintStart_toEndOf="@id/item_encomenda_icon"
             app:layout_constraintStart_toStartOf="@id/item_encomenda_nomePacote"
-            android:textSize="12sp"
-            />
+            app:layout_constraintTop_toBottomOf="@id/item_encomenda_nomePacote"
+            tools:text="Objeto encaminhado" />
+
         <TextView
             android:id="@+id/item_encomenda_data"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:text="Atualizado em 20 Nov. 2022 | 20:20"
-            app:layout_constraintTop_toBottomOf="@id/item_encomenda_status"
-            app:layout_constraintStart_toEndOf="@id/item_encomenda_icon"
-            app:layout_constraintStart_toStartOf="@id/item_encomenda_status"
-            app:layout_constraintBottom_toBottomOf="parent"
             android:layout_marginBottom="12dp"
             android:textSize="12sp"
-            />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/item_encomenda_icon"
+            app:layout_constraintStart_toStartOf="@id/item_encomenda_status"
+            app:layout_constraintTop_toBottomOf="@id/item_encomenda_status"
+            tools:text="Atualizado em 20 Nov. 2022 | 20:20" />
 
         <View
             android:id="@+id/item_encomenda_linha"
@@ -109,9 +242,8 @@
             android:layout_height="1dp"
             android:background="@color/cinza_fraco"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            />
+            app:layout_constraintStart_toStartOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>
 

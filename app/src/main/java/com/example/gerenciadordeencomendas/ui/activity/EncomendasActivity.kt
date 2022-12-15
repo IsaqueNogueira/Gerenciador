@@ -5,46 +5,42 @@ import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentOnAttachListener
+import com.example.gerenciadordeencomendas.Notificacaoservice
 import com.example.gerenciadordeencomendas.R
 import com.example.gerenciadordeencomendas.model.Encomenda
 import com.example.gerenciadordeencomendas.ui.activity.extensions.transacaoFragment
 import com.example.gerenciadordeencomendas.ui.activity.fragment.DetalheEncomendaFragment
 import com.example.gerenciadordeencomendas.ui.activity.fragment.ListaEncomendasFragment
 import com.example.gerenciadordeencomendas.utils.verificaConexao
-import java.text.SimpleDateFormat
-import java.time.LocalDate
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
-import java.util.*
 
 private const val TAG_DETALHE_ENCOMENDA = "detalhe_encomenda"
+
 class EncomendasActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_encomendas)
-         if (savedInstanceState == null){
-             abreListaEncomendas()
-         }
-        if (supportFragmentManager.findFragmentByTag(TAG_DETALHE_ENCOMENDA) != null){
+        if (savedInstanceState == null) {
+            abreListaEncomendas()
+        }
+        if (supportFragmentManager.findFragmentByTag(TAG_DETALHE_ENCOMENDA) != null) {
             supportActionBar?.hide()
         }
-
+        startService(Intent(baseContext, Notificacaoservice::class.java))
     }
 
     init {
         val fm = supportFragmentManager
 
         val listener = FragmentOnAttachListener { fragmentManager, fragment ->
-            when(fragment){
-                is ListaEncomendasFragment ->{
+            when (fragment) {
+                is ListaEncomendasFragment -> {
                     configuraListaEncomendaFragment(fragment)
 
                 }
-                is DetalheEncomendaFragment ->{
+                is DetalheEncomendaFragment -> {
                     configuraDetalheEncomendaFragment(fragment)
                     verificaConexao()
                 }
@@ -65,8 +61,9 @@ class EncomendasActivity : AppCompatActivity() {
         }
     }
 
-    private fun copiar(encomenda: Encomenda){
-        val clipBoard = applicationContext.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+    private fun copiar(encomenda: Encomenda) {
+        val clipBoard =
+            applicationContext.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
         val clip: ClipData = ClipData.newPlainText("simple text", encomenda.codigoRastreio)
         clipBoard.setPrimaryClip(clip)
     }

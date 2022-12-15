@@ -14,8 +14,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        >
+        android:layout_height="match_parent">
 
 
         <View
@@ -27,17 +26,17 @@
             app:layout_constraintEnd_toEndOf="@id/item_rastreio_linha_do_tempo_circulo"
             app:layout_constraintStart_toStartOf="@id/item_rastreio_linha_do_tempo_circulo"
             app:layout_constraintTop_toTopOf="parent" />
+
         <View
             android:id="@+id/item_rastreio_linha_do_tempo2"
             android:layout_width="3dp"
             android:layout_height="0dp"
             android:background="@color/cinza_fraco"
-            app:layout_constraintTop_toBottomOf="@id/item_rastreio_linha_do_tempo_circulo"
-            app:layout_constraintStart_toStartOf="@id/item_rastreio_linha_do_tempo_circulo"
-            app:layout_constraintEnd_toEndOf="@id/item_rastreio_linha_do_tempo_circulo"
-            app:layout_constraintBottom_toBottomOf="parent"
             android:visibility="gone"
-            />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/item_rastreio_linha_do_tempo_circulo"
+            app:layout_constraintStart_toStartOf="@id/item_rastreio_linha_do_tempo_circulo"
+            app:layout_constraintTop_toBottomOf="@id/item_rastreio_linha_do_tempo_circulo" />
 
         <View
             android:id="@+id/item_rastreio_linha_do_tempo_circulo"
@@ -55,184 +54,219 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_airplane"
-            app:layout_constraintStart_toStartOf="@id/item_rastreio_linha_do_tempo_circulo"
-            app:layout_constraintEnd_toEndOf="@id/item_rastreio_linha_do_tempo_circulo"
-            app:layout_constraintTop_toTopOf="@id/item_rastreio_linha_do_tempo_circulo"
             app:layout_constraintBottom_toBottomOf="@id/item_rastreio_linha_do_tempo_circulo"
-            />
+            app:layout_constraintEnd_toEndOf="@id/item_rastreio_linha_do_tempo_circulo"
+            app:layout_constraintStart_toStartOf="@id/item_rastreio_linha_do_tempo_circulo"
+            app:layout_constraintTop_toTopOf="@id/item_rastreio_linha_do_tempo_circulo" />
+
         <View
             android:id="@+id/item_rastreio_linha_do_tempo_circulo_entregue"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:background="@drawable/view_circular_verde"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="@id/item_rastreio_status"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.03"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/item_rastreio_status"
-            android:visibility="gone"
-            />
+            app:layout_constraintTop_toTopOf="@id/item_rastreio_status" />
 
         <ImageView
             android:id="@+id/item_rastreio_check"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_check"
-            app:layout_constraintStart_toStartOf="@id/item_rastreio_linha_do_tempo_circulo"
-            app:layout_constraintEnd_toEndOf="@id/item_rastreio_linha_do_tempo_circulo"
-            app:layout_constraintTop_toTopOf="@id/item_rastreio_linha_do_tempo_circulo"
-            app:layout_constraintBottom_toBottomOf="@id/item_rastreio_linha_do_tempo_circulo"
             android:visibility="gone"
-            />
+            app:layout_constraintBottom_toBottomOf="@id/item_rastreio_linha_do_tempo_circulo"
+            app:layout_constraintEnd_toEndOf="@id/item_rastreio_linha_do_tempo_circulo"
+            app:layout_constraintStart_toStartOf="@id/item_rastreio_linha_do_tempo_circulo"
+            app:layout_constraintTop_toTopOf="@id/item_rastreio_linha_do_tempo_circulo" />
 
         <View
             android:id="@+id/item_rastreio_linha_do_tempo_circulo_saiu_para_entrega"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:background="@drawable/view_circular_saiu_para_entrega"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="@id/item_rastreio_status"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.03"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/item_rastreio_status"
-            android:visibility="gone"
-            />
+            app:layout_constraintTop_toTopOf="@id/item_rastreio_status" />
 
         <ImageView
             android:id="@+id/item_rastreio_carrinho"
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:src="@drawable/ic_car"
-            app:layout_constraintStart_toStartOf="@id/item_rastreio_linha_do_tempo_circulo"
-            app:layout_constraintEnd_toEndOf="@id/item_rastreio_linha_do_tempo_circulo"
-            app:layout_constraintTop_toTopOf="@id/item_rastreio_linha_do_tempo_circulo"
-            app:layout_constraintBottom_toBottomOf="@id/item_rastreio_linha_do_tempo_circulo"
             android:visibility="gone"
-            />
+            app:layout_constraintBottom_toBottomOf="@id/item_rastreio_linha_do_tempo_circulo"
+            app:layout_constraintEnd_toEndOf="@id/item_rastreio_linha_do_tempo_circulo"
+            app:layout_constraintStart_toStartOf="@id/item_rastreio_linha_do_tempo_circulo"
+            app:layout_constraintTop_toTopOf="@id/item_rastreio_linha_do_tempo_circulo" />
 
         <View
             android:id="@+id/item_rastreio_linha_do_tempo_circulo_postado"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:background="@drawable/view_circular_postado"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="@id/item_rastreio_status"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.03"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/item_rastreio_status"
-            android:visibility="gone"
-            />
+            app:layout_constraintTop_toTopOf="@id/item_rastreio_status" />
 
         <ImageView
             android:id="@+id/item_rastreio_postado"
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:src="@drawable/ic_location"
-            app:layout_constraintStart_toStartOf="@id/item_rastreio_linha_do_tempo_circulo"
-            app:layout_constraintEnd_toEndOf="@id/item_rastreio_linha_do_tempo_circulo"
-            app:layout_constraintTop_toTopOf="@id/item_rastreio_linha_do_tempo_circulo"
-            app:layout_constraintBottom_toBottomOf="@id/item_rastreio_linha_do_tempo_circulo"
             android:visibility="gone"
-            />
+            app:layout_constraintBottom_toBottomOf="@id/item_rastreio_linha_do_tempo_circulo"
+            app:layout_constraintEnd_toEndOf="@id/item_rastreio_linha_do_tempo_circulo"
+            app:layout_constraintStart_toStartOf="@id/item_rastreio_linha_do_tempo_circulo"
+            app:layout_constraintTop_toTopOf="@id/item_rastreio_linha_do_tempo_circulo" />
+
         <View
             android:id="@+id/item_rastreio_linha_do_tempo_circulo_brasil"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:background="@drawable/view_circular_brazil"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="@id/item_rastreio_status"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.03"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/item_rastreio_status"
-            android:visibility="gone"
-            />
+            app:layout_constraintTop_toTopOf="@id/item_rastreio_status" />
 
         <ImageView
             android:id="@+id/item_rastreio_brasil"
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:src="@drawable/brazil"
-            app:layout_constraintStart_toStartOf="@id/item_rastreio_linha_do_tempo_circulo"
-            app:layout_constraintEnd_toEndOf="@id/item_rastreio_linha_do_tempo_circulo"
-            app:layout_constraintTop_toTopOf="@id/item_rastreio_linha_do_tempo_circulo"
-            app:layout_constraintBottom_toBottomOf="@id/item_rastreio_linha_do_tempo_circulo"
             android:visibility="gone"
-            />
+            app:layout_constraintBottom_toBottomOf="@id/item_rastreio_linha_do_tempo_circulo"
+            app:layout_constraintEnd_toEndOf="@id/item_rastreio_linha_do_tempo_circulo"
+            app:layout_constraintStart_toStartOf="@id/item_rastreio_linha_do_tempo_circulo"
+            app:layout_constraintTop_toTopOf="@id/item_rastreio_linha_do_tempo_circulo" />
 
         <View
             android:id="@+id/item_rastreio_linha_do_tempo_circulo_taxa"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:background="@drawable/view_circular_taxa"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="@id/item_rastreio_status"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.03"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/item_rastreio_status"
-            android:visibility="gone"
-            />
+            app:layout_constraintTop_toTopOf="@id/item_rastreio_status" />
 
         <ImageView
             android:id="@+id/item_rastreio_taxa"
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:src="@drawable/ic__money"
-            app:layout_constraintStart_toStartOf="@id/item_rastreio_linha_do_tempo_circulo"
-            app:layout_constraintEnd_toEndOf="@id/item_rastreio_linha_do_tempo_circulo"
-            app:layout_constraintTop_toTopOf="@id/item_rastreio_linha_do_tempo_circulo"
-            app:layout_constraintBottom_toBottomOf="@id/item_rastreio_linha_do_tempo_circulo"
             android:visibility="gone"
-            />
+            app:layout_constraintBottom_toBottomOf="@id/item_rastreio_linha_do_tempo_circulo"
+            app:layout_constraintEnd_toEndOf="@id/item_rastreio_linha_do_tempo_circulo"
+            app:layout_constraintStart_toStartOf="@id/item_rastreio_linha_do_tempo_circulo"
+            app:layout_constraintTop_toTopOf="@id/item_rastreio_linha_do_tempo_circulo" />
 
         <View
             android:id="@+id/item_rastreio_linha_do_tempo_circulo_pagamento_confirmado"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:background="@drawable/view_circular_pagamento_confirmado"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="@id/item_rastreio_status"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.03"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/item_rastreio_status"
-            android:visibility="gone"
-            />
+            app:layout_constraintTop_toTopOf="@id/item_rastreio_status" />
 
         <ImageView
             android:id="@+id/item_rastreio_pagamento"
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:src="@drawable/ic__money"
-            app:layout_constraintStart_toStartOf="@id/item_rastreio_linha_do_tempo_circulo"
-            app:layout_constraintEnd_toEndOf="@id/item_rastreio_linha_do_tempo_circulo"
-            app:layout_constraintTop_toTopOf="@id/item_rastreio_linha_do_tempo_circulo"
-            app:layout_constraintBottom_toBottomOf="@id/item_rastreio_linha_do_tempo_circulo"
             android:visibility="gone"
-            />
+            app:layout_constraintBottom_toBottomOf="@id/item_rastreio_linha_do_tempo_circulo"
+            app:layout_constraintEnd_toEndOf="@id/item_rastreio_linha_do_tempo_circulo"
+            app:layout_constraintStart_toStartOf="@id/item_rastreio_linha_do_tempo_circulo"
+            app:layout_constraintTop_toTopOf="@id/item_rastreio_linha_do_tempo_circulo" />
 
         <View
             android:id="@+id/item_rastreio_linha_do_tempo_circulo_fiscalizacao"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:background="@drawable/view_circular_fiscalizacao"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="@id/item_rastreio_status"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.03"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/item_rastreio_status"
-            android:visibility="gone"
-            />
+            app:layout_constraintTop_toTopOf="@id/item_rastreio_status" />
 
         <ImageView
             android:id="@+id/item_rastreio_fiscalizacao"
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:src="@drawable/ic_priority"
-            app:layout_constraintStart_toStartOf="@id/item_rastreio_linha_do_tempo_circulo"
-            app:layout_constraintEnd_toEndOf="@id/item_rastreio_linha_do_tempo_circulo"
-            app:layout_constraintTop_toTopOf="@id/item_rastreio_linha_do_tempo_circulo"
-            app:layout_constraintBottom_toBottomOf="@id/item_rastreio_linha_do_tempo_circulo"
             android:visibility="gone"
-            />
+            app:layout_constraintBottom_toBottomOf="@id/item_rastreio_linha_do_tempo_circulo"
+            app:layout_constraintEnd_toEndOf="@id/item_rastreio_linha_do_tempo_circulo"
+            app:layout_constraintStart_toStartOf="@id/item_rastreio_linha_do_tempo_circulo"
+            app:layout_constraintTop_toTopOf="@id/item_rastreio_linha_do_tempo_circulo" />
+
+        <View
+            android:id="@+id/item_rastreio_linha_do_tempo_circulo_direcionado"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/view_circular_fiscalizacao"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@id/item_rastreio_status"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.03"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/item_rastreio_status" />
+
+        <ImageView
+            android:id="@+id/item_rastreio_direcionado"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/ic_priority"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@id/item_rastreio_linha_do_tempo_circulo"
+            app:layout_constraintEnd_toEndOf="@id/item_rastreio_linha_do_tempo_circulo"
+            app:layout_constraintStart_toStartOf="@id/item_rastreio_linha_do_tempo_circulo"
+            app:layout_constraintTop_toTopOf="@id/item_rastreio_linha_do_tempo_circulo" />
+
+        <View
+            android:id="@+id/item_rastreio_linha_do_tempo_circulo_retirada"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/view_circular_fiscalizacao"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@id/item_rastreio_status"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.03"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/item_rastreio_status" />
+
+        <ImageView
+            android:id="@+id/item_rastreio_retirada"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/ic_time"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@id/item_rastreio_linha_do_tempo_circulo"
+            app:layout_constraintEnd_toEndOf="@id/item_rastreio_linha_do_tempo_circulo"
+            app:layout_constraintStart_toStartOf="@id/item_rastreio_linha_do_tempo_circulo"
+            app:layout_constraintTop_toTopOf="@id/item_rastreio_linha_do_tempo_circulo" />
+
+
 
         <TextView
             android:id="@+id/item_rastreio_status"
