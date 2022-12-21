@@ -3,14 +3,11 @@ package com.example.gerenciadordeencomendas.repository
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Observer
 import com.example.gerenciadordeencomendas.model.Encomenda
 import com.example.gerenciadordeencomendas.model.Usuario
 import com.example.gerenciadordeencomendas.utils.Utils
-import com.example.gerenciadordeencomendas.webcliente.model.ApiCorreios
 import com.example.gerenciadordeencomendas.webcliente.model.ApiMelhorRastreio
 import com.example.gerenciadordeencomendas.webcliente.model.RastreioWebClientMelhorEnvio
-import com.example.gerenciadordeencomendas.webcliente.model.RastreioWebCliente
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
@@ -22,9 +19,9 @@ class Repository {
     val db = FirebaseFirestore.getInstance()
     val auth = FirebaseAuth.getInstance()
 
-    private val webClienteApiCorreios by lazy {
-        RastreioWebCliente()
-    }
+//    private val webClienteApiCorreios by lazy {
+//        RastreioWebCliente()
+//    }
 
     private val webClientMelhorRastreio by lazy {
         RastreioWebClientMelhorEnvio()
@@ -148,11 +145,11 @@ class Repository {
     }
 
 
-    suspend fun buscaWebCliente(codigo: String): ApiCorreios {
-        val user = "isaquecross15@gmail.com"
-        val token = "0a40c26417782427548f2aeb57f74c4038faf1f26ac662379425e35c848cce2b"
-        return webClienteApiCorreios.buscaRastreio(user, token, codigo)
-    }
+//    suspend fun buscaWebCliente(codigo: String): ApiCorreios {
+//        val user = "isaquecross15@gmail.com"
+//        val token = "0a40c26417782427548f2aeb57f74c4038faf1f26ac662379425e35c848cce2b"
+//        return webClienteApiCorreios.buscaRastreio(user, token, codigo)
+//    }
 
     suspend fun buscaWebClientMelhorEnvio(codigo: String): ApiMelhorRastreio? {
         return webClientMelhorRastreio.buscaRastreio(codigo)

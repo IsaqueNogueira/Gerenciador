@@ -6,16 +6,14 @@ import android.os.Handler
 import android.text.TextUtils
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
 import com.example.gerenciadordeencomendas.databinding.ActivityCadastroBinding
 import com.example.gerenciadordeencomendas.model.Usuario
-import com.example.gerenciadordeencomendas.repository.Repository
 import com.example.gerenciadordeencomendas.ui.activity.viewmodel.CadastroViewModel
-import com.example.gerenciadordeencomendas.ui.activity.viewmodel.factory.CadastroViewModelFactory
 import com.google.firebase.FirebaseNetworkException
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class CadastroActivity : AppCompatActivity() {
 
@@ -23,13 +21,7 @@ class CadastroActivity : AppCompatActivity() {
         ActivityCadastroBinding.inflate(layoutInflater)
     }
 
-    private val viewModel by lazy {
-        val repository = Repository()
-        val factory = CadastroViewModelFactory(repository)
-        val provedor = ViewModelProvider(this, factory)
-        provedor.get(CadastroViewModel::class.java)
-    }
-
+    private val viewModel : CadastroViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

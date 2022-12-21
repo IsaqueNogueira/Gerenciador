@@ -1,4 +1,4 @@
-package com.example.gerenciadordeencomendas
+package com.example.gerenciadordeencomendas.notificacao
 
 import android.app.NotificationChannel
 import android.app.NotificationManager
@@ -13,6 +13,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
+import com.example.gerenciadordeencomendas.R
 import com.example.gerenciadordeencomendas.repository.Repository
 import com.example.gerenciadordeencomendas.ui.activity.EncomendasActivity
 import com.example.gerenciadordeencomendas.webcliente.model.RastreioWebClientMelhorEnvio
@@ -105,9 +106,8 @@ class Notificacaoservice : LifecycleService() {
 
     }
 
-
-    private fun verificaAtualizacaoRastreio(): LiveData<String> {
-        val liveData = MutableLiveData<String>()
+    private fun verificaAtualizacaoRastreio(): LiveData<String?> {
+        val liveData = MutableLiveData<String?>()
         repository.buscaTodasEncomendas().observe(this, Observer {
             it.forEach() {
                 lifecycleScope.launch {

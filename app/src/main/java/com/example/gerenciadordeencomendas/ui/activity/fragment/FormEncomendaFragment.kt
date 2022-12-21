@@ -1,35 +1,42 @@
-package com.example.gerenciadordeencomendas.ui.activity
+package com.example.gerenciadordeencomendas.ui.activity.fragment
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.text.TextUtils
+import android.view.LayoutInflater
 import android.view.View
-import androidx.lifecycle.ViewModelProvider
-import com.example.gerenciadordeencomendas.databinding.ActivityFormEncomendaBinding
+import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
+import com.example.gerenciadordeencomendas.databinding.FormEncomendaBinding
 import com.example.gerenciadordeencomendas.model.Encomenda
-import com.example.gerenciadordeencomendas.repository.Repository
 import com.example.gerenciadordeencomendas.ui.activity.viewmodel.FormEncomendaViewModel
-import com.example.gerenciadordeencomendas.ui.activity.viewmodel.factory.FormEncomendaViewModelFactory
 import com.example.gerenciadordeencomendas.utils.Utils
-import java.util.*
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class FormEncomendaActivity : AppCompatActivity() {
+class FormEncomendaFragment: Fragment() {
 
-    private val binding by lazy {
-        ActivityFormEncomendaBinding.inflate(layoutInflater)
+    private val controlador by lazy {
+        findNavController()
     }
-    private val viewModel by lazy {
-       val repository =  Repository()
-        val factory = FormEncomendaViewModelFactory(repository)
-        val provider = ViewModelProvider(this, factory)
-        provider.get(FormEncomendaViewModel::class.java)
-    }
+    private val viewModel: FormEncomendaViewModel by viewModel()
+    private lateinit var binding: FormEncomendaBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(binding.root)
-        supportActionBar?.hide()
-        clicoubotaoVoltar()
+        activity?.title = "Adicionar"
+    }
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        binding = FormEncomendaBinding.inflate(layoutInflater,container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         clicouBotaoAdicionarEncomenda()
     }
 
@@ -50,7 +57,7 @@ class FormEncomendaActivity : AppCompatActivity() {
                     viewModel.salvarEncomenda(encomenda).addOnCompleteListener {
                         if (it.isSuccessful) {
                             ocularProgessBar()
-                            finish()
+                            vaiParaListaEncomendas()
                         } else {
                             ocularProgessBar()
                             binding.activityFormEncomendaMensagemErro.text =
@@ -80,10 +87,9 @@ class FormEncomendaActivity : AppCompatActivity() {
         }
     }
 
-    private fun clicoubotaoVoltar() {
-        binding.activityFormEncomendaVoltar.setOnClickListener {
-            finish()
-        }
+    private fun vaiParaListaEncomendas() {
+       val direction = FormEncomendaFragmentDirections.actionFormEncomendaToListaEncomendas()
+        controlador.navigate(direction)
     }
 
     private fun validaRastreio(input: String): Boolean {

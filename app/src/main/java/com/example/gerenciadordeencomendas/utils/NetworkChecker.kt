@@ -4,13 +4,13 @@ import android.app.AlertDialog
 import android.content.Context
 import android.net.ConnectivityManager
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat.recreate
+import androidx.fragment.app.Fragment
 import com.example.gerenciadordeencomendas.R
 
-fun AppCompatActivity.verificaConexao() {
-
-
+fun Fragment.verificaConexao() {
     val manager =
-        applicationContext.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        activity?.applicationContext?.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 
     val networkInfo = manager.activeNetworkInfo
 
@@ -23,12 +23,11 @@ fun AppCompatActivity.verificaConexao() {
 //        }
     } else {
 
-        AlertDialog.Builder(this)
+        AlertDialog.Builder(context)
             .setView(R.layout.alert_dialog_sem_conexao)
-            .setPositiveButton("Sim") {_,_->
-                recreate()
+            .setPositiveButton("Ok") {_,_->
+
             }
-            .setNegativeButton("Não"){_,_->}
             .show()
 
         }

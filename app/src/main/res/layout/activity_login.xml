@@ -21,13 +21,15 @@
 
     <TextView
         android:id="@+id/activity_login_mensagemErro"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="@id/activity_login_email_layout"
         app:layout_constraintBottom_toTopOf="@id/activity_login_email_layout"
         tools:text="Digite uma senha com no mínimo 6 caracteres!"
         android:textColor="@android:color/holo_red_dark"
         android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="@id/activity_login_email_layout"
+        app:layout_constraintHorizontal_bias="0.0"
         />
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/activity_login_email_layout"
@@ -59,6 +61,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         app:layout_constraintVertical_bias="0.3"
+        app:passwordToggleEnabled="true"
         android:layout_margin="20dp"
         >
         <com.google.android.material.textfield.TextInputEditText
@@ -86,18 +89,31 @@
         />
 
     <Button
-        android:id="@+id/activity_login_botao_vaiparacadastro"
+        android:id="@+id/activity_login_botao_esqueceu_senha"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/activity_login_botao_login"
         app:layout_constraintStart_toStartOf="@id/activity_login_botao_login"
         app:layout_constraintEnd_toEndOf="@id/activity_login_botao_login"
         android:layout_marginTop="10dp"
-        android:text="Cadastre-se"
+        android:text="Esqueceu a senha?"
         android:textAllCaps="false"
         android:background="@android:color/transparent"
-        android:textColor="@color/black"
+        android:textColor="@color/purple_500"
         />
+    <Button
+        android:id="@+id/activity_login_botao_vaiparacadastro"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/activity_login_botao_esqueceu_senha"
+        app:layout_constraintStart_toStartOf="@id/activity_login_botao_esqueceu_senha"
+        app:layout_constraintEnd_toEndOf="@id/activity_login_botao_esqueceu_senha"
+        android:text="Cadastre-se"
+        android:textAllCaps="false"
+        android:backgroundTint="@color/green_entrege"
+        android:textColor="@color/white"
+        />
+
 
     <ProgressBar
         android:id="@+id/activity_login_progessbar"

@@ -3,6 +3,7 @@ package com.example.gerenciadordeencomendas
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import com.example.gerenciadordeencomendas.notificacao.Notificacaoservice
 
 class BootCompletedIntentReceiver: BroadcastReceiver() {
 

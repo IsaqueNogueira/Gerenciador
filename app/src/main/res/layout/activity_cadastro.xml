@@ -109,7 +109,7 @@
 
     <Button
         android:id="@+id/activity_cadastro_botao_vaiparalogin"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/activity_cadastro_botao_cadastrar"
         app:layout_constraintStart_toStartOf="@id/activity_cadastro_botao_cadastrar"
@@ -117,8 +117,8 @@
         android:layout_marginTop="10dp"
         android:text="Login"
         android:textAllCaps="false"
-        android:background="@android:color/transparent"
-        android:textColor="@color/black"
+        android:backgroundTint="@color/green_entrege"
+        android:textColor="@color/white"
         />
     <ProgressBar
         android:id="@+id/activity_cadastro_progessbar"

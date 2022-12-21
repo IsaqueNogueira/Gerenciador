@@ -1,39 +1,33 @@
 package com.example.gerenciadordeencomendas.ui.activity.fragment
 
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.example.gerenciadordeencomendas.ui.activity.adapters.DetalheEncomendaAdapter
+import com.example.gerenciadordeencomendas.R
 import com.example.gerenciadordeencomendas.databinding.DetalheEncomendaBinding
-import com.example.gerenciadordeencomendas.model.Encomenda
-import com.example.gerenciadordeencomendas.repository.Repository
-import com.example.gerenciadordeencomendas.ui.activity.CHAVE_ENCOMENDA_ID
+import com.example.gerenciadordeencomendas.ui.activity.adapters.DetalheEncomendaAdapter
 import com.example.gerenciadordeencomendas.ui.activity.viewmodel.DetalheEncomendaViewModel
-import com.example.gerenciadordeencomendas.ui.activity.viewmodel.factory.DetalheEncomendaViewModelFactory
 import com.example.gerenciadordeencomendas.utils.Utils
 import com.example.gerenciadordeencomendas.utils.verificaConexao
-import com.example.gerenciadordeencomendas.webcliente.model.ApiMelhorRastreio
 import com.example.gerenciadordeencomendas.webcliente.model.Event
 import kotlinx.coroutines.launch
-import java.text.SimpleDateFormat
-import java.util.*
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
-class DetalheEncomendaFragment : Fragment() {
-    var verificaConexao: () -> Unit = {}
-    var botaoVoltar: () -> Unit = {}
-    var copia: (encomenda: Encomenda) -> Unit = {}
+class DetalheEncomendaFragment : Fragment(R.layout.detalhe_encomenda){
+    private val argumento by navArgs<DetalheEncomendaFragmentArgs>()
     private val encomendaId: String by lazy {
-        arguments?.getString(CHAVE_ENCOMENDA_ID) ?: throw IllegalArgumentException("Id inválido")
+        argumento.encomendaId
     }
 
     private val adpter by lazy {
@@ -44,12 +38,7 @@ class DetalheEncomendaFragment : Fragment() {
 
     private lateinit var binding: DetalheEncomendaBinding
 
-    private val viewModel by lazy {
-        val repository = Repository()
-        val factory = DetalheEncomendaViewModelFactory(repository)
-        val provedor = ViewModelProvider(this, factory)
-        provedor.get(DetalheEncomendaViewModel::class.java)
-    }
+    private val viewModel: DetalheEncomendaViewModel by viewModel()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -67,59 +56,65 @@ class DetalheEncomendaFragment : Fragment() {
 
     private fun mostraEncomenda() {
         mostraProgressbar()
-        viewModel.buscaEncomendaPorId(encomendaId).observe(viewLifecycleOwner, Observer { encomenda ->
-            lifecycleScope.launch {
+        viewModel.buscaEncomendaPorId(encomendaId)
+            .observe(viewLifecycleOwner, Observer { encomenda ->
+                lifecycleScope.launch {
 
-                val nomePacote = binding.detalheEncomendaNomePacote
-                nomePacote.text = encomenda.nomePacote
-                val codigoRastreio = binding.detalheEncomendaCodigoRastreio
-                codigoRastreio.text = encomenda.codigoRastreio
+                    val nomePacote = binding.detalheEncomendaNomePacote
+                    nomePacote.text = encomenda.nomePacote
+                    val codigoRastreio = binding.detalheEncomendaCodigoRastreio
+                    codigoRastreio.text = encomenda.codigoRastreio
 
-                val botaoCopiar = binding.detalheEncomendaBotaoCopiar
+                    val botaoCopiar = binding.detalheEncomendaBotaoCopiar
 
-                botaoCopiar.setOnClickListener {
-                    copia(encomenda)
-                    Toast.makeText(context, "Código de rastreio copiado", Toast.LENGTH_SHORT).show()
+                    botaoCopiar.setOnClickListener {
+                        val clipBoard =
+                            activity?.applicationContext?.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                        val clip: ClipData =
+                            ClipData.newPlainText("simple text", encomenda.codigoRastreio)
+                        clipBoard.setPrimaryClip(clip)
+                        Toast.makeText(context, "Código de rastreio copiado", Toast.LENGTH_SHORT)
+                            .show()
+                    }
+
+                    viewModel.buscaWebClienteMelhorRastreio(encomenda.codigoRastreio)?.let {
+                        if (it.success == true) {
+
+                            val rastreioMelhorRastreio = it
+
+                            val tamanhoEvent = rastreioMelhorRastreio.data.events.size - 1
+                            val ultimoStatus = rastreioMelhorRastreio.data.events.get(tamanhoEvent)
+                            val primeiroStatus = rastreioMelhorRastreio.data.events.get(0)
+
+
+                            if (ultimoStatus.events == "Objeto entregue ao destinatário") {
+                                activity?.title = "Entregue"
+                            } else {
+                                activity?.title = "Em trânsito"
+                            }
+
+                            diasDePostagem(ultimoStatus, primeiroStatus)
+
+                            adpter.atualiza(
+                                rastreioMelhorRastreio.data.events,
+                                encomendaId,
+                                ultimoStatus,
+                                primeiroStatus
+                            )
+                            val recyclerView = binding.detalheEncomendaRecyclerview
+                            val layoutManager = LinearLayoutManager(context)
+                            layoutManager.reverseLayout = true
+                            layoutManager.stackFromEnd = true
+                            recyclerView.layoutManager = layoutManager
+                            recyclerView.adapter = adpter
+                            ocultaProgressbar()
+                        } else {
+                            mostraErro()
+                        }
+                    } ?: mostraErro()
                 }
 
-                viewModel.buscaWebClienteMelhorRastreio(encomenda.codigoRastreio)?.let {
-                    if (it.success == true) {
-
-                        val rastreioMelhorRastreio = it
-
-                        val tamanhoEvent = rastreioMelhorRastreio.data.events.size - 1
-                        val ultimoStatus = rastreioMelhorRastreio.data.events.get(tamanhoEvent)
-                        val primeiroStatus = rastreioMelhorRastreio.data.events.get(0)
-
-
-                        if (ultimoStatus.events == "Objeto entregue ao destinatário") {
-                            activity?.title = "Entregue"
-                        } else {
-                            activity?.title = "Em trânsito"
-                        }
-
-                        diasDePostagem(ultimoStatus, primeiroStatus)
-
-                        adpter.atualiza(
-                            rastreioMelhorRastreio.data.events,
-                            encomendaId,
-                            ultimoStatus,
-                            primeiroStatus
-                        )
-                        val recyclerView = binding.detalheEncomendaRecyclerview
-                        val layoutManager = LinearLayoutManager(context)
-                        layoutManager.reverseLayout = true
-                        layoutManager.stackFromEnd = true
-                        recyclerView.layoutManager = layoutManager
-                        recyclerView.adapter = adpter
-                        ocultaProgressbar()
-                    } else {
-                        mostraErro()
-                    }
-                } ?: mostraErro()
-            }
-
-        })
+            })
 
     }
 

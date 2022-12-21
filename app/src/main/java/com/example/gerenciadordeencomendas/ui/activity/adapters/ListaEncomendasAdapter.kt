@@ -59,64 +59,65 @@ class ListaEncomendasAdapter(
                 binding.itemEncomendaCheck.visibility = View.VISIBLE
                 binding.itemEncomendaIconEntregue.visibility = View.VISIBLE
                 nomePacote.setTextColor(Color.parseColor("#7E7E7E"))
-            }else{
+            } else {
                 binding.itemEncomendaCheck.visibility = View.GONE
                 binding.itemEncomendaIconEntregue.visibility = View.GONE
                 nomePacote.setTextColor(Color.parseColor("#000000"))
             }
 
-            if (encomenda.status == "Objeto postado" || encomenda.status == "Objeto postado após o horário limite da unidade"){
+            if (encomenda.status == "Objeto postado" || encomenda.status == "Objeto postado após o horário limite da unidade") {
                 binding.itemEncomendaLinhaDoTempoCirculoPostado.visibility = View.VISIBLE
                 binding.itemEncomendaPostado.visibility = View.VISIBLE
-            }else{
+            } else {
                 binding.itemEncomendaLinhaDoTempoCirculoPostado.visibility = View.GONE
                 binding.itemEncomendaPostado.visibility = View.GONE
             }
 
-            if (encomenda.status == "Objeto saiu para entrega ao destinatário"){
+            if (encomenda.status == "Objeto saiu para entrega ao destinatário") {
                 binding.itemEncomendaLinhaDoTempoCirculoSaiuParaEntrega.visibility = View.VISIBLE
                 binding.itemEncomendaCarrinho.visibility = View.VISIBLE
-            }else{
+            } else {
                 binding.itemEncomendaLinhaDoTempoCirculoSaiuParaEntrega.visibility = View.GONE
                 binding.itemEncomendaCarrinho.visibility = View.GONE
             }
 
-            if (encomenda.status == "Objeto recebido pelos Correios do Brasil"){
+            if (encomenda.status == "Objeto recebido pelos Correios do Brasil") {
                 binding.itemEncomendaLinhaDoTempoCirculoBrasil.visibility = View.VISIBLE
                 binding.itemEncomendaBrasil.visibility = View.VISIBLE
-            }else{
+            } else {
                 binding.itemEncomendaLinhaDoTempoCirculoBrasil.visibility = View.GONE
                 binding.itemEncomendaBrasil.visibility = View.GONE
             }
 
-            if (encomenda.status == "Aguardando pagamento"){
+            if (encomenda.status == "Aguardando pagamento") {
                 binding.itemEncomendaLinhaDoTempoCirculoTaxa.visibility = View.VISIBLE
                 binding.itemEncomendaTaxa.visibility = View.VISIBLE
-            }else{
+            } else {
                 binding.itemEncomendaLinhaDoTempoCirculoTaxa.visibility = View.GONE
                 binding.itemEncomendaTaxa.visibility = View.GONE
             }
 
-            if (encomenda.status == "Pagamento confirmado"){
-                binding.itemEncomendaLinhaDoTempoCirculoPagamentoConfirmado.visibility = View.VISIBLE
+            if (encomenda.status == "Pagamento confirmado") {
+                binding.itemEncomendaLinhaDoTempoCirculoPagamentoConfirmado.visibility =
+                    View.VISIBLE
                 binding.itemEncomendaPagamento.visibility = View.VISIBLE
-            }else{
+            } else {
                 binding.itemEncomendaLinhaDoTempoCirculoPagamentoConfirmado.visibility = View.GONE
                 binding.itemEncomendaPagamento.visibility = View.GONE
             }
 
-            if (encomenda.status == "Fiscalização aduaneira finalizada"){
+            if (encomenda.status == "Fiscalização aduaneira finalizada") {
                 binding.itemEncomendaLinhaDoTempoCirculoFiscalizacao.visibility = View.VISIBLE
                 binding.itemEncomendaFiscalizacao.visibility = View.VISIBLE
-            }else{
+            } else {
                 binding.itemEncomendaLinhaDoTempoCirculoFiscalizacao.visibility = View.GONE
                 binding.itemEncomendaFiscalizacao.visibility = View.GONE
             }
 
-            if (encomenda.status == "Fiscalização aduaneira finalizada"){
+            if (encomenda.status == "Fiscalização aduaneira finalizada") {
                 binding.itemEncomendaLinhaDoTempoCirculoFiscalizacao.visibility = View.VISIBLE
                 binding.itemEncomendaFiscalizacao.visibility = View.VISIBLE
-            }else{
+            } else {
                 binding.itemEncomendaLinhaDoTempoCirculoFiscalizacao.visibility = View.GONE
                 binding.itemEncomendaFiscalizacao.visibility = View.GONE
             }

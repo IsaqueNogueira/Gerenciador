@@ -1,27 +1,27 @@
 package com.example.gerenciadordeencomendas.ui.activity.fragment
 
+import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.*
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.example.gerenciadordeencomendas.R
 import com.example.gerenciadordeencomendas.databinding.ListaEncomendasBinding
 import com.example.gerenciadordeencomendas.model.Encomenda
-import com.example.gerenciadordeencomendas.repository.Repository
+import com.example.gerenciadordeencomendas.ui.activity.LoginActivity
 import com.example.gerenciadordeencomendas.ui.activity.adapters.ListaEncomendasAdapter
 import com.example.gerenciadordeencomendas.ui.activity.viewmodel.ListaEncomendasViewModel
-import com.example.gerenciadordeencomendas.ui.activity.viewmodel.factory.ListaEncomendasViewModelFactory
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class ListaEncomendasFragment : Fragment() {
-    var quandoClicarSair: () -> Unit = {}
-    var quandoClicarAdicionarEncomenda: () -> Unit = {}
-    var quandoClicarNoItem: (encomenda: Encomenda) -> Unit = {}
-
-
+    private val controlador by lazy {
+        findNavController()
+    }
     private val adapter by lazy {
         context?.let {
             ListaEncomendasAdapter(it)
@@ -29,18 +29,14 @@ class ListaEncomendasFragment : Fragment() {
     }
 
     private lateinit var binding: ListaEncomendasBinding
-
-    private val viewModel by lazy {
-        val repository = Repository()
-        val factory = ListaEncomendasViewModelFactory(repository)
-        val provedor = ViewModelProvider(this, factory)
-        provedor.get(ListaEncomendasViewModel::class.java)
-    }
+    private val viewModel: ListaEncomendasViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
         excluirEncomenda()
+
+
     }
 
     override fun onCreateView(
@@ -48,6 +44,7 @@ class ListaEncomendasFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+
         binding = ListaEncomendasBinding.inflate(layoutInflater, container, false)
         return binding.root
     }
@@ -62,9 +59,6 @@ class ListaEncomendasFragment : Fragment() {
         super.onResume()
         configuraRecyclerview()
         configuraAdapter()
-
-
-
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -77,33 +71,36 @@ class ListaEncomendasFragment : Fragment() {
             configuraAlertDialogSair(it)
             return super.onOptionsItemSelected(item)
         } ?: throw IllegalArgumentException("Contexto inválido")
-
     }
 
+    @SuppressLint("ResourceType")
     private fun configuraAlertDialogSair(it: Context) {
-
         AlertDialog.Builder(it)
             .setTitle("Deseja realmente sair?")
             .setPositiveButton("Sim") { _, _ ->
                 viewModel.auth.signOut()
-                quandoClicarSair()
+                val intent = Intent(context, LoginActivity::class.java)
+                startActivity(intent)
+                activity?.finish()
             }
             .setNegativeButton("Não") { _, _ -> }
             .show()
     }
 
     private fun configuraRecyclerview() {
-
         viewModel.buscaTodasEncomendas().observe(this, Observer{ encomendas ->
             adapter.atualiza(encomendas)
         })
     }
 
+    @SuppressLint("SuspiciousIndentation")
     private fun configuraAdapter() {
         val recyclerView = binding.listaEncomendaRecyclerview
         recyclerView.adapter = adapter
         adapter.quandoClicarNoItem = {
-            quandoClicarNoItem(it)
+             val direction =
+                 ListaEncomendasFragmentDirections.actionListaEncomendasToDetalheEncomenda(it.firebaseId)
+                controlador.navigate(direction)
         }
     }
 
@@ -142,7 +139,8 @@ class ListaEncomendasFragment : Fragment() {
 
     private fun clicouBotaoAdicionarPacote() {
         binding.listaEncomendaBotao.setOnClickListener {
-            quandoClicarAdicionarEncomenda()
+            val direction = ListaEncomendasFragmentDirections.actionListaEncomendasToFormEncomenda()
+            controlador.navigate(direction)
         }
     }
 }

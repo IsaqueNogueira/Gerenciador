@@ -18,9 +18,9 @@ class DetalheEncomendaViewModel(
         return liveDataEncomendaId
     }
 
-    suspend fun buscaWebCliente(codigo: String): ApiCorreios {
-        return repository.buscaWebCliente(codigo)
-    }
+//    suspend fun buscaWebCliente(codigo: String): ApiCorreios {
+//        return repository.buscaWebCliente(codigo)
+//    }
 
     suspend fun buscaWebClienteMelhorRastreio(codigo: String): ApiMelhorRastreio? {
         return repository.buscaWebClientMelhorEnvio(codigo)
