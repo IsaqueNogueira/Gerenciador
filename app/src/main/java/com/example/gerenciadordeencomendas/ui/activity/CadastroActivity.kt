@@ -35,6 +35,7 @@ class CadastroActivity : AppCompatActivity() {
             val senha = binding.activityCadastroSenha.text.toString()
             if (!TextUtils.isEmpty(nome) && !TextUtils.isEmpty(email) && !TextUtils.isEmpty(senha)) {
                 mostraProgressBar()
+                binding.activityCadastroBotaoVaiparalogin.visibility = View.GONE
                 val usuario = Usuario(nome, email, senha)
                 viewModel.cadastraUsuario(usuario).addOnSuccessListener {
                     Intent(this, EncomendasActivity::class.java).apply {
@@ -47,6 +48,7 @@ class CadastroActivity : AppCompatActivity() {
                     }
                 }.addOnFailureListener { exception ->
                     ocultaProgressBar()
+                    binding.activityCadastroBotaoVaiparalogin.visibility = View.VISIBLE
                     val mensagemErro = when (exception) {
                         is FirebaseAuthWeakPasswordException -> "*Digite uma senha com no mínimo 6 caracteres!"
                         is FirebaseAuthInvalidCredentialsException -> "*Digite um email válido!"
@@ -83,10 +85,7 @@ class CadastroActivity : AppCompatActivity() {
 
     private fun vaiParaLogin() {
         binding.activityCadastroBotaoVaiparalogin.setOnClickListener {
-            Intent(this, LoginActivity::class.java).apply {
-                startActivity(this)
                 finish()
-            }
         }
     }
 

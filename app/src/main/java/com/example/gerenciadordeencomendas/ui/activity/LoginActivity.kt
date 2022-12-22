@@ -129,7 +129,6 @@ class LoginActivity : AppCompatActivity() {
         binding.activityLoginBotaoVaiparacadastro.setOnClickListener {
             Intent(this, CadastroActivity::class.java).apply {
                 startActivity(this)
-                finish()
             }
         }
     }

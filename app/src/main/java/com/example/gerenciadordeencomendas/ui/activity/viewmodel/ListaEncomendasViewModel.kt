@@ -20,6 +20,10 @@ class ListaEncomendasViewModel(
       return  repository.excluirEncomenda(firebaseId)
     }
 
+    fun salvarEncomenda(encomenda: Encomenda): Task<Void> {
+        return repository.salvarEncomenda(encomenda)
+    }
+
     val auth = FirebaseAuth.getInstance()
 
 }
