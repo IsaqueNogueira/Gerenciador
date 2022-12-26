@@ -4,18 +4,32 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/cinza_claro">
+    style="@style/background">
 
     <View
         android:id="@+id/detalhe_encomenda_titulo"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:background="@color/purple_500"
+        style="@style/detalheEncomendaTitle"
         android:paddingBottom="5dp"
         app:layout_constraintBottom_toTopOf="@id/detalhe_encomenda_linha"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.gms.ads.AdView
+        xmlns:ads="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/adView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        ads:layout_constraintTop_toBottomOf="@id/detalhe_encomenda_titulo"
+        ads:layout_constraintStart_toStartOf="parent"
+        ads:layout_constraintEnd_toEndOf="parent"
+        ads:adSize="BANNER"
+        ads:adUnitId="ca-app-pub-6470587668575312/5197141347">
+    </com.google.android.gms.ads.AdView>
 
     <TextView
         android:id="@+id/detalhe_encomenda_nomePacote"
@@ -24,7 +38,7 @@
         android:layout_marginStart="20dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="8dp"
-        android:textColor="@color/white"
+        style="@style/detalheEncomendaText"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@id/detalhe_encomenda_codigoRastreio"
         app:layout_constraintEnd_toEndOf="parent"
@@ -36,7 +50,7 @@
         android:id="@+id/detalhe_encomenda_codigoRastreio"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/white"
+        style="@style/detalheEncomendaText"
         android:layout_marginTop="5dp"
         android:textIsSelectable="true"
         app:layout_constraintStart_toStartOf="@id/detalhe_encomenda_nomePacote"
@@ -57,7 +71,7 @@
         android:id="@+id/detalhe_encomenda_diasenviado"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/white"
+        style="@style/detalheEncomendaText"
         android:textSize="11sp"
         app:layout_constraintStart_toStartOf="@id/detalhe_encomenda_codigoRastreio"
         app:layout_constraintTop_toBottomOf="@id/detalhe_encomenda_codigoRastreio"
@@ -84,7 +98,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/detalhe_encomenda_linha"
+        app:layout_constraintTop_toBottomOf="@id/adView"
         tools:listitem="@layout/item_rastreio" />
 
     <TextView
@@ -94,6 +108,7 @@
         android:layout_margin="20dp"
         android:text="@string/erroRastreio"
         android:textAlignment="center"
+        style="@style/textColor"
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -108,7 +123,7 @@
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/detalhe_encomenda_linha" />
+        app:layout_constraintTop_toBottomOf="@id/adView" />
 
     <ProgressBar
         android:id="@+id/detalhe_encomenda_progressbar"

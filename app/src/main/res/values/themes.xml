@@ -8,10 +8,44 @@
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/teal_200</item>
         <item name="colorSecondaryVariant">@color/teal_700</item>
-        <item name="colorOnSecondary">@color/black</item>
+        <item name="colorOnSecondary">#FFFFFF</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
         <item name="fontFamily">@font/montserrat</item>
     </style>
+
+
+    <style name="background">
+        <item name="background">@color/cinza_claro</item>
+    </style>
+    
+    <style name="textColor">
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="textColorCinza">
+        <item name="android:textColor">@color/dark_gray</item>
+    </style>
+    <style name="detalheEncomendaText">
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="detalheEncomendaTitle">
+        <item name="android:background">@color/purple_500</item>
+    </style>
+
+    <style name="backgroundItem">
+        <item name="android:background">@color/white</item>
+    </style>
+
+    <style name="calendar">
+        <item name="android:background">@drawable/ic_calendar</item>
+    </style>
+
+    <style name="iconeWfi">
+        <item name="android:background">@drawable/ic_wifi_black</item>
+    </style>
+
+
 </resources>

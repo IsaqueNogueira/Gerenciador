@@ -1,37 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.example.gerenciadordeencomendas">
+    package="com.isaquesoft.rastreiocorreios">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
 
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/ic_rastreio_correios"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@mipmap/ic_rastreio_correios"
         android:supportsRtl="true"
         android:theme="@style/Theme.GerenciadorDeEncomendas"
         tools:targetApi="31"
-        android:name=".AppApplication"
+        android:name="com.isaquesoft.rastreiocorreios.AppApplication"
         >
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-6470587668575312~1129919738"/>
         <service
-            android:name=".notificacao.Notificacaoservice"
+            android:name="com.isaquesoft.rastreiocorreios.notificacao.Notificacaoservice"
             android:enabled="true"
             android:exported="true"/>
         <activity
-            android:name=".ui.activity.EncomendasActivity"
+            android:name="com.isaquesoft.rastreiocorreios.ui.activity.EncomendasActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.activity.CadastroActivity"
+            android:name="com.isaquesoft.rastreiocorreios.ui.activity.CadastroActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.activity.LoginActivity"
+            android:name="com.isaquesoft.rastreiocorreios.ui.activity.LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -45,19 +49,21 @@
             android:resource="@array/preloaded_fonts" />
 
         <service
-            android:name=".fcm.GerenciadorEncomendasFirebaseMessagingService"
+            android:name="com.isaquesoft.rastreiocorreios.fcm.GerenciadorEncomendasFirebaseMessagingService"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
 
-        <receiver android:name=".BootCompletedIntentReceiver"
+        <receiver android:name="com.isaquesoft.rastreiocorreios.BootCompletedIntentReceiver"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
+
+
     </application>
 
 </manifest>

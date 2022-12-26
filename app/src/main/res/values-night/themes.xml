@@ -2,8 +2,8 @@
     <!-- Base application theme. -->
     <style name="Theme.GerenciadorDeEncomendas" parent="Theme.MaterialComponents.Light.DarkActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/purple_500</item>
-        <item name="colorPrimaryVariant">@color/purple_700</item>
+        <item name="colorPrimary">@color/dark_gray</item>
+        <item name="colorPrimaryVariant">@color/dark_gray</item>
         <item name="colorOnPrimary">@color/black</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/teal_200</item>
@@ -13,5 +13,36 @@
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
         <item name="fontFamily">@font/montserrat</item>
+    </style>
+
+    <style name="background">
+        <item name="android:background">@color/dark_gray</item>
+    </style>
+
+    <style name="textColor">
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="textColorCinza">
+        <item name="android:textColor">@color/cinza_claro</item>
+    </style>
+    <style name="detalheEncomendaText">
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="detalheEncomendaTitle">
+        <item name="android:background">@color/dark_gray</item>
+    </style>
+
+    <style name="backgroundItem">
+        <item name="android:background">@color/dark_forte</item>
+    </style>
+
+    <style name="calendar">
+        <item name="android:background">@drawable/ic_calendar_white</item>
+    </style>
+
+    <style name="iconeWfi">
+        <item name="android:background">@drawable/ic_wifi_white</item>
     </style>
 </resources>

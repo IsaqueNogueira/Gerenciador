@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/listaEncomendas"
-        android:name="com.example.gerenciadordeencomendas.ui.activity.fragment.ListaEncomendasFragment"
+        android:name="com.isaquesoft.rastreiocorreios.ui.activity.fragment.ListaEncomendasFragment"
         android:label="Lista encomendas"
         tools:layout="@layout/lista_encomendas" >
         <action
@@ -17,17 +17,10 @@
             app:exitAnim="@anim/fade_out"
             app:popEnterAnim="@anim/fade_in"
             app:popExitAnim="@anim/fade_out" />
-        <action
-            android:id="@+id/action_listaEncomendas_to_formEncomenda"
-            app:destination="@id/formEncomenda"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
     <fragment
         android:id="@+id/detalheEncomenda"
-        android:name="com.example.gerenciadordeencomendas.ui.activity.fragment.DetalheEncomendaFragment"
+        android:name="com.isaquesoft.rastreiocorreios.ui.activity.fragment.DetalheEncomendaFragment"
         android:label="Detalhe encomenda"
         tools:layout="@layout/detalhe_encomenda"
         >
@@ -42,20 +35,5 @@
         <argument
             android:name="encomendaId"
             app:argType="string" />
-    </fragment>
-    <fragment
-        android:id="@+id/formEncomenda"
-        android:label="Formulario encomenda"
-        tools:layout="@layout/form_encomenda"
-        android:name="com.example.gerenciadordeencomendas.ui.activity.fragment.FormEncomendaFragment"
-        >
-        <action
-            android:id="@+id/action_formEncomenda_to_listaEncomendas"
-            app:destination="@id/listaEncomendas"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right"
-            app:popUpTo="@id/nav_graph" />
     </fragment>
 </navigation>

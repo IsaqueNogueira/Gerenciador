@@ -14,7 +14,9 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        style="@style/backgroundItem"
+        >
 
 
         <View
@@ -276,6 +278,7 @@
             android:layout_marginTop="12dp"
             android:layout_marginEnd="8dp"
             android:textSize="16sp"
+            style="@style/textColorCinza"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@id/item_rastreio_linha_do_tempo_circulo"
@@ -289,6 +292,7 @@
             android:layout_marginStart="3dp"
             android:layout_marginEnd="8dp"
             android:textSize="11sp"
+            style="@style/textColorCinza"
             app:layout_constraintBottom_toBottomOf="@id/item_rastreio_iconcalendar"
             app:layout_constraintStart_toEndOf="@id/item_rastreio_iconcalendar"
             app:layout_constraintTop_toTopOf="@id/item_rastreio_iconcalendar"
@@ -300,7 +304,7 @@
             android:layout_height="10dp"
             android:layout_marginEnd="3dp"
             android:layout_marginBottom="8dp"
-            android:background="@drawable/ic_calendar"
+            style="@style/calendar"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@id/item_rastreio_data"
             app:layout_constraintHorizontal_bias="1.0"
@@ -314,6 +318,7 @@
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
             android:textSize="12sp"
+            style="@style/textColorCinza"
             app:layout_constraintBottom_toTopOf="@id/item_rastreio_iconcalendar"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@id/item_rastreio_status"
