@@ -16,7 +16,7 @@ import com.google.firebase.messaging.RemoteMessage
 
 private const val TAG = "Gerenciador FCM"
 
-class GerenciadorEncomendasFirebaseMessagingService : FirebaseMessagingService() {
+class RastreioCorreiosFirebaseMessagingService : FirebaseMessagingService() {
 
     override fun onMessageReceived(message: RemoteMessage) {
         super.onMessageReceived(message)

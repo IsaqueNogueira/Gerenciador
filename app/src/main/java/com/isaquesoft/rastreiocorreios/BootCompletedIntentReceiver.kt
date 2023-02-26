@@ -11,6 +11,7 @@ class BootCompletedIntentReceiver: BroadcastReceiver() {
         if ("android.intent.action.BOOT_COMPLETED" == intent.action) {
             val pushIntent = Intent(context, Notificacaoservice::class.java)
             context.startService(pushIntent)
+
         }
     }
 }

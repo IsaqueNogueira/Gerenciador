@@ -76,7 +76,6 @@ class Notificacaoservice : LifecycleService() {
                             PendingIntent.FLAG_ONE_SHOT
                         )
                     }
-
                     val notificacao = NotificationCompat.Builder(this, IDENTIFICADOR_DO_CANAL)
                         .setContentTitle(it)
                         .setContentText("Está em trânsito")
@@ -87,7 +86,6 @@ class Notificacaoservice : LifecycleService() {
                         .build()
 
                     gerenciadorDeNotificacoes.notify(id, notificacao)
-
 
                     }
             })
@@ -110,7 +108,7 @@ class Notificacaoservice : LifecycleService() {
         repository.buscaTodasEncomendas().observe(this, Observer {
             it.forEach() {
                 lifecycleScope.launch {
-                    try {
+                    try{
                         rastreioWebClientMelhorRastreio.buscaRastreio(it.codigoRastreio)
                             ?.let { rastreioEncontrado ->
                                 if (rastreioEncontrado.success == true) {

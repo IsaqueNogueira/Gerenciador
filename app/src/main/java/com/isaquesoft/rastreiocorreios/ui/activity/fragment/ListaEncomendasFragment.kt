@@ -6,26 +6,23 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.*
-import android.widget.Button
-import android.widget.EditText
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import com.isaquesoft.rastreiocorreios.R
 import com.isaquesoft.rastreiocorreios.databinding.ListaEncomendasBinding
 import com.isaquesoft.rastreiocorreios.model.Encomenda
 import com.isaquesoft.rastreiocorreios.ui.activity.LoginActivity
 import com.isaquesoft.rastreiocorreios.ui.activity.adapters.ListaEncomendasAdapter
+import com.isaquesoft.rastreiocorreios.ui.activity.viewmodel.ComponentesVisuais
+import com.isaquesoft.rastreiocorreios.ui.activity.viewmodel.EstadoAppViewModel
 import com.isaquesoft.rastreiocorreios.ui.activity.viewmodel.ListaEncomendasViewModel
 import com.isaquesoft.rastreiocorreios.utils.Utils
-import com.google.android.gms.ads.AdRequest
-import com.google.android.gms.ads.AdView
-import com.google.android.gms.ads.MobileAds
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
@@ -41,8 +38,8 @@ class ListaEncomendasFragment : Fragment() {
 
     private lateinit var binding: ListaEncomendasBinding
     private val viewModel: ListaEncomendasViewModel by viewModel()
+    private val estadoAppViewModel: EstadoAppViewModel by sharedViewModel()
 
-    lateinit var mAdView : AdView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,14 +59,12 @@ class ListaEncomendasFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setHasOptionsMenu(true)
+        estadoAppViewModel.temComponentes = ComponentesVisuais(true)
         activity?.title = "Rastreio Correios"
         clicouBotaoAdicionarPacote()
-        context?.let {
-            MobileAds.initialize(it) {}
-        }
-        mAdView = binding.adView
-        val adRequest = AdRequest.Builder().build()
-        mAdView.loadAd(adRequest)
+
+
     }
 
     override fun onResume() {
@@ -89,6 +84,7 @@ class ListaEncomendasFragment : Fragment() {
             return super.onOptionsItemSelected(item)
         } ?: throw IllegalArgumentException("Contexto inválido")
     }
+
 
     @SuppressLint("ResourceType")
     private fun configuraAlertDialogSair(context: Context) {
@@ -203,6 +199,10 @@ class ListaEncomendasFragment : Fragment() {
         layout: View,
         alertDialog: AlertDialog
     ) {
+        val progressBar = layout.findViewById(R.id.form_encomenda_progressBar) as ProgressBar
+        val buttonSalvar = layout.findViewById(R.id.form_encomenda_positive_button) as Button
+        progressBar.visibility = View.VISIBLE
+        buttonSalvar.visibility = View.INVISIBLE
         val usuarioId = viewModel.auth.currentUser?.uid
         val dataAtualizado = Utils().dataHora()
         val dataCriado = Utils().dataHoraMillisegundos()
@@ -223,14 +223,16 @@ class ListaEncomendasFragment : Fragment() {
             if (validaRastreio(codigoRastreio)) {
                 viewModel.salvarEncomenda(encomenda).addOnCompleteListener {
                     if (it.isSuccessful) {
+                        alertDialog.dismiss()
                         viewModel.buscaTodasEncomendas().observe(viewLifecycleOwner, Observer {
                             adapter.atualiza(it)
-                            alertDialog.dismiss()
                         })
                     } else {
                         val mensagemErro: TextView =
                             layout.findViewById(R.id.form_encomenda_mensagemErro) as TextView
-                        mensagemErro.visibility = View.VISIBLE
+                            mensagemErro.visibility = View.VISIBLE
+                        progressBar.visibility = View.GONE
+                        buttonSalvar.visibility = View.VISIBLE
                     }
                 }
             } else {
@@ -238,6 +240,8 @@ class ListaEncomendasFragment : Fragment() {
                     layout.findViewById(R.id.form_encomenda_edittext_codigo) as EditText
                 codigoRastreioEditText.setError("Código inválido")
                 codigoRastreioEditText.requestFocus()
+                progressBar.visibility = View.GONE
+                buttonSalvar.visibility = View.VISIBLE
             }
         }
         when {
@@ -246,12 +250,16 @@ class ListaEncomendasFragment : Fragment() {
                     layout.findViewById(R.id.form_encomenda_edittext_codigo) as EditText
                 codigoRastreioEditText.setError("Campo obrigatório")
                 codigoRastreioEditText.requestFocus()
+                progressBar.visibility = View.GONE
+                buttonSalvar.visibility = View.VISIBLE
             }
             nomePacote.isEmpty() -> {
                 val nomePacoteEditText: EditText =
                     layout.findViewById(R.id.form_encomenda_edittext_descricao) as EditText
                 nomePacoteEditText.setError("Campo obrigatório!")
                 nomePacoteEditText.requestFocus()
+                progressBar.visibility = View.GONE
+                buttonSalvar.visibility = View.VISIBLE
             }
         }
 

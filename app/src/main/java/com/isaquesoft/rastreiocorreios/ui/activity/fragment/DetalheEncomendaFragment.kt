@@ -6,25 +6,27 @@ import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.isaquesoft.rastreiocorreios.R
 import com.isaquesoft.rastreiocorreios.databinding.DetalheEncomendaBinding
 import com.isaquesoft.rastreiocorreios.ui.activity.adapters.DetalheEncomendaAdapter
+import com.isaquesoft.rastreiocorreios.ui.activity.viewmodel.ComponentesVisuais
 import com.isaquesoft.rastreiocorreios.ui.activity.viewmodel.DetalheEncomendaViewModel
+import com.isaquesoft.rastreiocorreios.ui.activity.viewmodel.EstadoAppViewModel
 import com.isaquesoft.rastreiocorreios.utils.Utils
 import com.isaquesoft.rastreiocorreios.utils.verificaConexao
 import com.isaquesoft.rastreiocorreios.webcliente.model.Event
-import com.google.android.gms.ads.AdRequest
-import com.google.android.gms.ads.AdView
-import com.google.android.gms.ads.MobileAds
 import kotlinx.coroutines.launch
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
@@ -33,16 +35,17 @@ class DetalheEncomendaFragment : Fragment(R.layout.detalhe_encomenda){
     private val encomendaId: String by lazy {
         argumento.encomendaId
     }
-    lateinit var mAdView : AdView
     private val adpter by lazy {
         context?.let {
             DetalheEncomendaAdapter(it)
         } ?: throw IllegalArgumentException("Contexto inválido")
     }
 
+    private val controlador by lazy { findNavController() }
     private lateinit var binding: DetalheEncomendaBinding
 
     private val viewModel: DetalheEncomendaViewModel by viewModel()
+    private val estadoAppViewModel: EstadoAppViewModel by sharedViewModel()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -55,14 +58,22 @@ class DetalheEncomendaFragment : Fragment(R.layout.detalhe_encomenda){
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setHasOptionsMenu(true)
+        estadoAppViewModel.temComponentes = ComponentesVisuais(true,true)
         requireActivity().title = "Encomenda"
         mostraEncomenda()
-        context?.let {
-            MobileAds.initialize(it) {}
-        }
-        mAdView = binding.adView
-        val adRequest = AdRequest.Builder().build()
-        mAdView.loadAd(adRequest)
+
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.getItemId() == android.R.id.home) {
+            if (getActivity() != null) {
+                val direction = DetalheEncomendaFragmentDirections.actionDetalheEncomendaToListaEncomendas()
+                controlador.navigate(direction)
+            }
+            return true;
+        };
+        return super.onOptionsItemSelected(item);
     }
 
     private fun mostraEncomenda() {
@@ -90,6 +101,7 @@ class DetalheEncomendaFragment : Fragment(R.layout.detalhe_encomenda){
 
                     try {
                     viewModel.buscaWebClienteMelhorRastreio(encomenda.codigoRastreio)?.let {
+
                         if (it.success == true) {
 
                             val rastreioMelhorRastreio = it

@@ -93,8 +93,20 @@
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@id/form_encomenda_layout_descricao"
-        app:layout_constraintTop_toBottomOf="@id/form_encomenda_layout_descricao" />
+        app:layout_constraintTop_toBottomOf="@id/form_encomenda_layout_descricao"
 
+        />
+
+    <ProgressBar
+        android:id="@+id/form_encomenda_progressBar"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        app:layout_constraintTop_toTopOf="@id/form_encomenda_positive_button"
+        app:layout_constraintBottom_toBottomOf="@id/form_encomenda_positive_button"
+        app:layout_constraintStart_toStartOf="@id/form_encomenda_positive_button"
+        app:layout_constraintEnd_toEndOf="@id/form_encomenda_positive_button"
+        android:visibility="gone"
+        />
     <Button
         android:id="@+id/form_encomenda_negative_button"
         android:layout_width="wrap_content"

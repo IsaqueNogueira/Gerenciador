@@ -6,6 +6,7 @@ import android.os.Handler
 import android.text.TextUtils
 import android.util.Log
 import android.view.View
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.isaquesoft.rastreiocorreios.databinding.ActivityLoginBinding
 import com.google.firebase.FirebaseNetworkException
@@ -29,6 +30,17 @@ class LoginActivity : AppCompatActivity() {
         verificaUsuarioLogado()
         clicouBotaoLogin()
         recuperarSenha()
+        porqueCadastrar()
+    }
+
+    private fun porqueCadastrar() {
+        binding.activityLoginPorqueCadastrar.setOnClickListener {
+        AlertDialog.Builder(this)
+            .setTitle("Porque devo me cadastrar?")
+            .setMessage("Caso desinstale o aplicativo acidentalmente ou troque de aparelho, basta colocar login e senha que será recuperado todos os seus códigos de rastreio com o backup automático.")
+            .setPositiveButton("Ok"){_,_->}
+            .show()
+        }
     }
 
     private fun recuperarSenha() {
@@ -38,7 +50,7 @@ class LoginActivity : AppCompatActivity() {
                 FirebaseAuth.getInstance().sendPasswordResetEmail(email)
                     .addOnCompleteListener {
                         if (it.isSuccessful) {
-                            mostraMensagemDeErro("Enviamos uma mensagem para o seu email com o link de recuperação de senha!")
+                            criaAlertDialog()
                         }
                     }.addOnFailureListener {
                         verificaErro(it)
@@ -47,6 +59,14 @@ class LoginActivity : AppCompatActivity() {
                 mostraMensagemDeErro("Digite o email de sua conta para recuperar a senha!")
             }
         }
+    }
+
+    private fun criaAlertDialog() {
+        AlertDialog.Builder(this)
+            .setTitle("Redefinição de senha!")
+            .setMessage("Enviamos uma mensagem para o seu email com o link de recuperação de senha!")
+            .setPositiveButton("Ok"){_,_->}
+            .show()
     }
 
     private fun verificaErro(it: Exception) {
