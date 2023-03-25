@@ -5,12 +5,17 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
+import android.util.Log
 import android.view.*
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.LoadAdError
+import com.google.android.gms.ads.interstitial.InterstitialAd
+import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.isaquesoft.rastreiocorreios.R
@@ -25,7 +30,6 @@ import com.isaquesoft.rastreiocorreios.utils.Utils
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-
 class ListaEncomendasFragment : Fragment() {
     private val controlador by lazy {
         findNavController()
@@ -36,22 +40,22 @@ class ListaEncomendasFragment : Fragment() {
         } ?: throw IllegalArgumentException("Contexto inválido")
     }
 
+    private var mInterstitialAd: InterstitialAd? = null
+
     private lateinit var binding: ListaEncomendasBinding
     private val viewModel: ListaEncomendasViewModel by viewModel()
     private val estadoAppViewModel: EstadoAppViewModel by sharedViewModel()
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
         excluirEncomenda()
-
     }
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
         binding = ListaEncomendasBinding.inflate(layoutInflater, container, false)
         return binding.root
@@ -64,6 +68,22 @@ class ListaEncomendasFragment : Fragment() {
         activity?.title = "Rastreio Correios"
         clicouBotaoAdicionarPacote()
 
+        var adRequest = AdRequest.Builder().build()
+
+        InterstitialAd.load(
+            requireActivity(),
+            "ca-app-pub-6470587668575312/8098819976",
+            adRequest,
+            object : InterstitialAdLoadCallback() {
+                override fun onAdFailedToLoad(adError: LoadAdError) {
+                    mInterstitialAd = null
+                }
+
+                override fun onAdLoaded(interstitialAd: InterstitialAd) {
+                    mInterstitialAd = interstitialAd
+                }
+            },
+        )
 
     }
 
@@ -84,7 +104,6 @@ class ListaEncomendasFragment : Fragment() {
             return super.onOptionsItemSelected(item)
         } ?: throw IllegalArgumentException("Contexto inválido")
     }
-
 
     @SuppressLint("ResourceType")
     private fun configuraAlertDialogSair(context: Context) {
@@ -107,10 +126,12 @@ class ListaEncomendasFragment : Fragment() {
     }
 
     private fun configuraRecyclerview() {
-        viewModel.buscaTodasEncomendas().observe(this, Observer { encomendas ->
-            adapter.atualiza(encomendas)
-
-        })
+        viewModel.buscaTodasEncomendas().observe(
+            this,
+            Observer { encomendas ->
+                adapter.atualiza(encomendas)
+            },
+        )
     }
 
     @SuppressLint("SuspiciousIndentation")
@@ -130,12 +151,11 @@ class ListaEncomendasFragment : Fragment() {
                 configuraAlertDialogExcluirEncomenda(context, encomenda)
             }
         }
-
     }
 
     private fun configuraAlertDialogExcluirEncomenda(
         context: Context,
-        encomenda: Encomenda
+        encomenda: Encomenda,
     ) {
         AlertDialog.Builder(context)
             .setTitle("Tem certeza que deseja excluir a encomenda?")
@@ -147,7 +167,7 @@ class ListaEncomendasFragment : Fragment() {
                             Toast.makeText(
                                 context,
                                 "Encomenda excluída",
-                                Toast.LENGTH_SHORT
+                                Toast.LENGTH_SHORT,
                             )
                                 .show()
                         }
@@ -159,10 +179,9 @@ class ListaEncomendasFragment : Fragment() {
 
     @SuppressLint("MissingInflatedId")
     private fun criaAlertDialodFormEncomenda() {
-
         val inflat =
             requireActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-        val layout = inflat.inflate(R.layout.alert_dialog_form_encomenda, null);
+        val layout = inflat.inflate(R.layout.alert_dialog_form_encomenda, null)
         context?.let { context ->
             val alertDialog = AlertDialog.Builder(context)
                 .setView(layout)
@@ -197,7 +216,7 @@ class ListaEncomendasFragment : Fragment() {
         codigoRastreio: String,
         nomePacote: String,
         layout: View,
-        alertDialog: AlertDialog
+        alertDialog: AlertDialog,
     ) {
         val progressBar = layout.findViewById(R.id.form_encomenda_progressBar) as ProgressBar
         val buttonSalvar = layout.findViewById(R.id.form_encomenda_positive_button) as Button
@@ -218,19 +237,23 @@ class ListaEncomendasFragment : Fragment() {
                 status,
                 dataCriado,
                 dataAtualizado,
-                dataHoraApi
+                dataHoraApi,
             )
             if (validaRastreio(codigoRastreio)) {
+                mInterstitialAd?.show(requireActivity())
                 viewModel.salvarEncomenda(encomenda).addOnCompleteListener {
                     if (it.isSuccessful) {
                         alertDialog.dismiss()
-                        viewModel.buscaTodasEncomendas().observe(viewLifecycleOwner, Observer {
-                            adapter.atualiza(it)
-                        })
+                        viewModel.buscaTodasEncomendas().observe(
+                            viewLifecycleOwner,
+                            Observer {
+                                adapter.atualiza(it)
+                            },
+                        )
                     } else {
                         val mensagemErro: TextView =
                             layout.findViewById(R.id.form_encomenda_mensagemErro) as TextView
-                            mensagemErro.visibility = View.VISIBLE
+                        mensagemErro.visibility = View.VISIBLE
                         progressBar.visibility = View.GONE
                         buttonSalvar.visibility = View.VISIBLE
                     }
@@ -262,7 +285,6 @@ class ListaEncomendasFragment : Fragment() {
                 buttonSalvar.visibility = View.VISIBLE
             }
         }
-
     }
 
     private fun validaRastreio(input: String): Boolean {
@@ -270,5 +292,4 @@ class ListaEncomendasFragment : Fragment() {
             Regex(pattern = "^[A-Z]{2}[0-9]{9}[A-Z]{2}\$", options = setOf(RegexOption.IGNORE_CASE))
         return regex.matches(input)
     }
-
 }

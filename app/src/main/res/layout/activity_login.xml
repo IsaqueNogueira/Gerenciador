@@ -102,7 +102,7 @@
             android:layout_height="match_parent"
             android:inputType="textPassword"
             android:hint="Senha"
-            android:maxLength="8"
+            android:maxLength="50"
             />
     </com.google.android.material.textfield.TextInputLayout>
 

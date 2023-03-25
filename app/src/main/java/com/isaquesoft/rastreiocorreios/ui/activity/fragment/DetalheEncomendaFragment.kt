@@ -29,8 +29,7 @@ import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-
-class DetalheEncomendaFragment : Fragment(R.layout.detalhe_encomenda){
+class DetalheEncomendaFragment : Fragment(R.layout.detalhe_encomenda) {
     private val argumento by navArgs<DetalheEncomendaFragmentArgs>()
     private val encomendaId: String by lazy {
         argumento.encomendaId
@@ -50,7 +49,7 @@ class DetalheEncomendaFragment : Fragment(R.layout.detalhe_encomenda){
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
         binding = DetalheEncomendaBinding.inflate(layoutInflater, container, false)
         return binding.root
@@ -59,10 +58,9 @@ class DetalheEncomendaFragment : Fragment(R.layout.detalhe_encomenda){
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setHasOptionsMenu(true)
-        estadoAppViewModel.temComponentes = ComponentesVisuais(true,true)
+        estadoAppViewModel.temComponentes = ComponentesVisuais(true, true)
         requireActivity().title = "Encomenda"
         mostraEncomenda()
-
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -71,79 +69,76 @@ class DetalheEncomendaFragment : Fragment(R.layout.detalhe_encomenda){
                 val direction = DetalheEncomendaFragmentDirections.actionDetalheEncomendaToListaEncomendas()
                 controlador.navigate(direction)
             }
-            return true;
-        };
-        return super.onOptionsItemSelected(item);
+            return true
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     private fun mostraEncomenda() {
         mostraProgressbar()
         viewModel.buscaEncomendaPorId(encomendaId)
-            .observe(viewLifecycleOwner, Observer { encomenda ->
-                lifecycleScope.launch {
+            .observe(
+                viewLifecycleOwner,
+                Observer { encomenda ->
+                    lifecycleScope.launch {
+                        val nomePacote = binding.detalheEncomendaNomePacote
+                        nomePacote.text = encomenda.nomePacote
+                        val codigoRastreio = binding.detalheEncomendaCodigoRastreio
+                        codigoRastreio.text = encomenda.codigoRastreio
 
-                    val nomePacote = binding.detalheEncomendaNomePacote
-                    nomePacote.text = encomenda.nomePacote
-                    val codigoRastreio = binding.detalheEncomendaCodigoRastreio
-                    codigoRastreio.text = encomenda.codigoRastreio
+                        val botaoCopiar = binding.detalheEncomendaBotaoCopiar
 
-                    val botaoCopiar = binding.detalheEncomendaBotaoCopiar
+                        botaoCopiar.setOnClickListener {
+                            val clipBoard =
+                                activity?.applicationContext?.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                            val clip: ClipData =
+                                ClipData.newPlainText("simple text", encomenda.codigoRastreio)
+                            clipBoard.setPrimaryClip(clip)
+                            Toast.makeText(context, "Código de rastreio copiado", Toast.LENGTH_SHORT)
+                                .show()
+                        }
 
-                    botaoCopiar.setOnClickListener {
-                        val clipBoard =
-                            activity?.applicationContext?.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-                        val clip: ClipData =
-                            ClipData.newPlainText("simple text", encomenda.codigoRastreio)
-                        clipBoard.setPrimaryClip(clip)
-                        Toast.makeText(context, "Código de rastreio copiado", Toast.LENGTH_SHORT)
-                            .show()
-                    }
+                        try {
+                            viewModel.buscaWebClienteMelhorRastreio(encomenda.codigoRastreio)?.let {
+                                if (it.success == true) {
+                                    val rastreioMelhorRastreio = it
 
-                    try {
-                    viewModel.buscaWebClienteMelhorRastreio(encomenda.codigoRastreio)?.let {
+                                    val tamanhoEvent = rastreioMelhorRastreio.data.events.size - 1
+                                    val ultimoStatus = rastreioMelhorRastreio.data.events.get(tamanhoEvent)
+                                    val primeiroStatus = rastreioMelhorRastreio.data.events.get(0)
 
-                        if (it.success == true) {
+                                    if (ultimoStatus.events == "Objeto entregue ao destinatário") {
+                                        activity?.title = "Entregue"
+                                    } else {
+                                        activity?.title = "Em trânsito"
+                                    }
 
-                            val rastreioMelhorRastreio = it
+                                    diasDePostagem(ultimoStatus, primeiroStatus)
 
-                            val tamanhoEvent = rastreioMelhorRastreio.data.events.size - 1
-                            val ultimoStatus = rastreioMelhorRastreio.data.events.get(tamanhoEvent)
-                            val primeiroStatus = rastreioMelhorRastreio.data.events.get(0)
-
-
-                            if (ultimoStatus.events == "Objeto entregue ao destinatário") {
-                                activity?.title = "Entregue"
-                            } else {
-                                activity?.title = "Em trânsito"
-                            }
-
-                            diasDePostagem(ultimoStatus, primeiroStatus)
-
-                            adpter.atualiza(
-                                rastreioMelhorRastreio.data.events,
-                                encomendaId,
-                                ultimoStatus,
-                                primeiroStatus
-                            )
-                            val recyclerView = binding.detalheEncomendaRecyclerview
-                            val layoutManager = LinearLayoutManager(context)
-                            layoutManager.reverseLayout = true
-                            layoutManager.stackFromEnd = true
-                            recyclerView.layoutManager = layoutManager
-                            recyclerView.adapter = adpter
-                            ocultaProgressbar()
-                        } else {
+                                    adpter.atualiza(
+                                        rastreioMelhorRastreio.data.events,
+                                        encomendaId,
+                                        ultimoStatus,
+                                        primeiroStatus,
+                                    )
+                                    val recyclerView = binding.detalheEncomendaRecyclerview
+                                    val layoutManager = LinearLayoutManager(context)
+                                    layoutManager.reverseLayout = true
+                                    layoutManager.stackFromEnd = true
+                                    recyclerView.layoutManager = layoutManager
+                                    recyclerView.adapter = adpter
+                                    ocultaProgressbar()
+                                } else {
+                                    mostraErro()
+                                }
+                            } ?: mostraErro()
+                        } catch (e: Exception) {
+                            Log.i("TAG", "mostraEncomenda: $e")
                             mostraErro()
                         }
-                    } ?: mostraErro()
-                    }catch (e: Exception){
-                        Log.i("TAG", "mostraEncomenda: $e")
-                        mostraErro()
                     }
-                }
-
-            })
-
+                },
+            )
     }
 
     private fun mostraErro() {
@@ -153,7 +148,6 @@ class DetalheEncomendaFragment : Fragment(R.layout.detalhe_encomenda){
         mensagemErro.visibility = View.VISIBLE
         iconeErro.visibility = View.VISIBLE
         ocultaProgressbar()
-
     }
 
     private fun diasDePostagem(ultimoStatus: Event, primeiroStatus: Event) {
@@ -191,5 +185,4 @@ class DetalheEncomendaFragment : Fragment(R.layout.detalhe_encomenda){
     private fun mostraProgressbar() {
         binding.detalheEncomendaProgressbar.visibility = View.VISIBLE
     }
-
 }
